@@ -5,6 +5,7 @@ import { loginFields, Steps } from '../containers/LoginRegisterContaienr';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../i18n/translation';
 import { loginAndCreateRules } from '../consts/rulesFunction';
+import { colors } from '../consts/colors';
 
 
 interface Props {
@@ -147,7 +148,8 @@ const useClasses = makeStyles({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        height: "100vh"
+        height: "100vh",
+        backgroundColor: colors.bgColor
     },
     innerContainer: {
         display: 'flex',
@@ -155,7 +157,8 @@ const useClasses = makeStyles({
         alignItems: 'center',
         justifyContent: 'center',
         width: "30%",
-        height: "70%"
+        height: "70%",
+        backgroundColor: colors.white
     },
     titleStyle: {
         fontWeight: 'bold',

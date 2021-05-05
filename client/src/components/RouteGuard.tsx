@@ -9,8 +9,9 @@ interface Props {
     children: JSX.Element;
 }
 
-function RouteGuard(props: Props) {
-    return localStorage.getItem(LOCAL_STORAGE_KEYS.ACCESS_TOKEN) ? (
+const RouteGuard = (props: Props) => {
+    //for now
+    return false ? (
         <Route exact={props.exact} path={props.path}>
             {props.children}
         </Route>

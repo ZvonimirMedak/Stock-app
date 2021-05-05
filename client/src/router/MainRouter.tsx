@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import LoginRegisterContaienr from '../containers/LoginRegisterContaienr';
 import RouteGuard from '../components/RouteGuard';
 import { Routes } from './Routes';
@@ -7,7 +7,7 @@ import FavoritesContainer from '../containers/FavoritesContainer';
 import MostTradedContainer from '../containers/MostTradedContainer';
 import UserTradesContainer from '../containers/UserTradesContainer';
 
-function MainRouter() {
+const MainRouter = () => {
     return (
         <Router>
             <Switch>
