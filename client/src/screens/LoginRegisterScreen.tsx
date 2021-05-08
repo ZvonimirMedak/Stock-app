@@ -70,7 +70,7 @@ const LoginRegisterScreen = (props: Props) => {
             );
         }
         return null;
-    }, [props.step, props.control, props.errors, classes.formContainer, t]);
+    }, [props.step, props.control, props.errors, classes.formContainer, t, props.passwordRef]);
 
 
     return (

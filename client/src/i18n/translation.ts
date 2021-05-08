@@ -12,4 +12,3 @@ export const translations: typeof t.hr.translation = keys.reduce(
     {}
 );
 
-console.log(translations)

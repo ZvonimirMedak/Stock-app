@@ -1,15 +1,14 @@
 import { ThemeProvider } from '@material-ui/styles';
 import React from 'react';
 import { mainTheme } from './consts/mainTheme';
-import LoginRegisterContaienr from './containers/LoginRegisterContaienr';
-import MainRouter from './router/MainRouter';
+import AuthentificationWrapper from './wrappers/AuthentificationWrapper';
 
 
 
 const App = () => {
     return (
         <ThemeProvider theme={mainTheme}>
-            <MainRouter />
+            <AuthentificationWrapper />
         </ThemeProvider>
     )
 }

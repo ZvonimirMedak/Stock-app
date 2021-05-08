@@ -6,10 +6,16 @@ import { Routes } from './Routes';
 import FavoritesContainer from '../containers/FavoritesContainer';
 import MostTradedContainer from '../containers/MostTradedContainer';
 import UserTradesContainer from '../containers/UserTradesContainer';
+import AsideWrapper from '../wrappers/AsideWrapper';
 
-const MainRouter = () => {
+interface Props {
+    authentificationToken: string;
+}
+
+const MainRouter = (props: Props) => {
     return (
         <Router>
+            <AsideWrapper authentificationToken={props.authentificationToken} />
             <Switch>
                 <Route exact path={Routes.Login} component={LoginRegisterContaienr} />
                 <RouteGuard exact={true} path={Routes.Favorites}>

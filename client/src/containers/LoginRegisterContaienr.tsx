@@ -27,7 +27,7 @@ const LoginRegisterContaienr = () => {
     const changeStep = React.useCallback(() => {
         clearErrors();
         setStep((prev) => prev === Steps.LOGIN ? Steps.REGISTER : Steps.LOGIN);
-    }, [])
+    }, [clearErrors])
 
     return (
         <LoginRegisterScreen
