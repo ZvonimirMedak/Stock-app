@@ -15,7 +15,7 @@ export enum Steps {
 }
 
 const LoginRegisterContaienr = () => {
-    const { control, handleSubmit, formState: { errors }, watch } = useForm();
+    const { control, handleSubmit, formState: { errors }, watch, clearErrors } = useForm();
     const [step, setStep] = React.useState(Steps.LOGIN);
     const passwordRef = React.useRef({});
     passwordRef.current = watch(loginFields.password, '');
@@ -25,6 +25,7 @@ const LoginRegisterContaienr = () => {
     }, [])
 
     const changeStep = React.useCallback(() => {
+        clearErrors();
         setStep((prev) => prev === Steps.LOGIN ? Steps.REGISTER : Steps.LOGIN);
     }, [])
 

@@ -156,13 +156,15 @@ const useClasses = makeStyles({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        width: "30%",
-        height: "70%",
+        minWidth: 'calc(20vw + 250px)',
+        minHeight: '70vh',
         backgroundColor: colors.white
     },
     titleStyle: {
         fontWeight: 'bold',
-        padding: 20
+        padding: 40,
+        fontSize: 'calc(24px + 2.1vw)'
+
     },
     formContainer: {
         width: "70%",
@@ -173,6 +175,7 @@ const useClasses = makeStyles({
         paddingTop: 10,
         paddingBottom: 10,
         marginTop: 40,
+        fontSize: 'calc(14px + 0.3vw)'
     },
     linkContainer: {
         marginTop: 50
