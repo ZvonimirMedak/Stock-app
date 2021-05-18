@@ -6,11 +6,11 @@ interface Props {
     exact: boolean;
     path: string;
     children: JSX.Element;
+    uid: string;
 }
 
 const RouteGuard = (props: Props) => {
-    //for now
-    return true ? (
+    return props.uid ? (
         <Route exact={props.exact} path={props.path}>
             {props.children}
         </Route>

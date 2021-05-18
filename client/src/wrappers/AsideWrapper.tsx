@@ -7,6 +7,7 @@ import Route from '../components/Route';
 import { dimensions } from '../consts/dimensions';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { colors } from '../consts/colors';
+import firebase from 'firebase';
 
 interface Props {
     authentificationToken: string;
@@ -38,7 +39,7 @@ const AsideWrapper = (props: Props) => {
     );
 
     const handleClick = React.useCallback(() => {
-        //logout
+        firebase.auth().signOut();
     }, []);
 
     if (props.authentificationToken) {

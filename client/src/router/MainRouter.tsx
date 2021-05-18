@@ -13,18 +13,19 @@ interface Props {
 }
 
 const MainRouter = (props: Props) => {
+
     return (
         <Router>
             <AsideWrapper authentificationToken={props.authentificationToken} />
             <Switch>
                 <Route exact path={Routes.Login} component={LoginRegisterContaienr} />
-                <RouteGuard exact={true} path={Routes.Favorites}>
+                <RouteGuard uid={props.authentificationToken} exact={true} path={Routes.Favorites}>
                     <FavoritesContainer />
                 </RouteGuard>
-                <RouteGuard exact={true} path={Routes.MostTraded}>
+                <RouteGuard uid={props.authentificationToken} exact={true} path={Routes.MostTraded}>
                     <MostTradedContainer />
                 </RouteGuard>
-                <RouteGuard exact={true} path={Routes.UserTrades}>
+                <RouteGuard uid={props.authentificationToken} exact={true} path={Routes.UserTrades}>
                     <UserTradesContainer />
                 </RouteGuard>
             </Switch>
