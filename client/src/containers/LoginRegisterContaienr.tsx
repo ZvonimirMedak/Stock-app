@@ -7,6 +7,7 @@ import { useHistory } from 'react-router';
 import { replaceLoginScreen } from '../helpers/navigation';
 import { useSelector } from 'react-redux';
 import { State } from '../reducers';
+
 export const loginFields = {
     email: "email",
     password: "password",
