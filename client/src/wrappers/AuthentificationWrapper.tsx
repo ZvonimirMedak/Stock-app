@@ -11,7 +11,7 @@ const AuthentificationWrapper = () => {
     const classes = useClasses();
     const user = useSelector((state: State) => state.auth.user);
     const dispatch = useDispatch();
-    const isMounted = React.useRef<boolean>(false);
+    const [isMounted,setIsMounted] = React.useState<boolean>(false);
 
     const firebaseCheck = React.useCallback((): Promise<firebase.User | null> => {
         return new Promise((resolve) => {
@@ -25,12 +25,12 @@ const AuthentificationWrapper = () => {
         try {
             const response = await firebaseCheck();
             if (response && response.email && response.uid) {
-                isMounted.current = true;
                 dispatch(setUser({ email: response.email, uid: response.uid, password: "" }));
             }
+            setIsMounted(true);
         } catch (error) {
             console.log(error);
-            isMounted.current = true;
+            setIsMounted(true)
         }
     }, [dispatch, firebaseCheck])
 
@@ -46,7 +46,8 @@ const AuthentificationWrapper = () => {
         checkIfAllreadLogin();
     }, [checkIfAllreadLogin])
 
-    if (isMounted.current) {
+
+    if (isMounted) {
         return (
             <>
                 <main className={classes.main}>

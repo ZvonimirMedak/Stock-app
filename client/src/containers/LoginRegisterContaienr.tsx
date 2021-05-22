@@ -5,8 +5,9 @@ import { LoginInterface } from '../consts/interfaces';
 import LoginRegisterScreen from '../screens/LoginRegisterScreen';
 import { useHistory } from 'react-router';
 import { replaceLoginScreen } from '../helpers/navigation';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { State } from '../reducers';
+import { setUser } from '../actions/authAction';
 
 export const loginFields = {
     email: "email",
@@ -26,6 +27,7 @@ const LoginRegisterContaienr = () => {
     const history = useHistory();
     const user = useSelector((state: State) => state.auth.user);
     const [isMounted, setIsMounted] = React.useState<boolean>(false);
+    const dispatch = useDispatch();
     passwordRef.current = watch(loginFields.password, '');
 
     React.useEffect(() => {
@@ -34,27 +36,29 @@ const LoginRegisterContaienr = () => {
         } else {
             setIsMounted(true);
         }
-    }, [user])
+    }, [user,history])
 
     const login = React.useCallback(async (data: LoginInterface) => {
         try {
             await firebase.auth().signInWithEmailAndPassword(data.email, data.password).then((res) => {
+                dispatch(setUser({email:data.email,uid:res.user?res.user.uid:"randomUID",password:""}))
                 replaceLoginScreen(history);
             })
         } catch (error) {
             console.log(error)
         }
-    }, [history])
+    }, [history,dispatch])
 
     const register = React.useCallback(async (data: LoginInterface) => {
         try {
-            await firebase.auth().createUserWithEmailAndPassword(data.email, data.password).then(() => {
+            await firebase.auth().createUserWithEmailAndPassword(data.email, data.password).then((res) => {
+                dispatch(setUser({email:data.email,uid:res.user?res.user?.uid:"randomUID",password:""}))
                 replaceLoginScreen(history)
             })
         } catch (error) {
             console.log(error);
         }
-    }, [history])
+    }, [history,dispatch])
 
     const changeStep = React.useCallback(() => {
         clearErrors();
