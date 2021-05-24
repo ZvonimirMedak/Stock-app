@@ -1,3 +1,3 @@
 export const dimensions = {
-    asideWidth: '280px'
-}
+  asideWidth: "280px",
+};

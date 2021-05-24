@@ -1,13 +1,8 @@
-import React from 'react';
-import UserTradesScreen from '../screens/UserTradesScreen';
-
-
-
+import React from "react";
+import UserTradesScreen from "../screens/UserTradesScreen";
 
 const UserTradesContainer = () => {
-    return (
-        <UserTradesScreen />
-    )
-}
+  return <UserTradesScreen />;
+};
 
 export default UserTradesContainer;
