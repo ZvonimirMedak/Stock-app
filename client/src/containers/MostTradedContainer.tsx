@@ -36,8 +36,7 @@ const MostTradedContainer = () => {
 
   const handleViewMorePress = React.useCallback(
     (item: AllStocks) => {
-      console.log(item);
-      goToSpecificStock(history);
+      goToSpecificStock(history, item.symbol);
     },
     [history]
   );

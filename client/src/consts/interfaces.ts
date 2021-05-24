@@ -18,3 +18,7 @@ export interface AllStocks {
   name: string;
   symbol: string;
 }
+
+export interface StockInformation {
+  name: string;
+}
