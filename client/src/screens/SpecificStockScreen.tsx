@@ -1,14 +1,23 @@
-import { Box, Typography } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import React from "react";
-import { StockInformation } from "../consts/interfaces";
+//@ts-ignore
+import { CanvasJSChart } from "canvasjs-react-charts";
+import { ChartData } from "../containers/SpecificStockContainer";
+import { chartOptions } from "../helpers/chart";
 
 interface Props {
-  chartData: number[];
+  chartData: ChartData[];
+  stockName: string;
 }
+
 const SpecificStockScreen = (props: Props) => {
+  const options = React.useMemo(
+    () => chartOptions(props.chartData, props.stockName),
+    [props.chartData, props.stockName]
+  );
   return (
     <Box>
-      <Typography></Typography>
+      <CanvasJSChart options={options} />
     </Box>
   );
 };

@@ -22,3 +22,8 @@ export interface AllStocks {
 export interface StockInformation {
   name: string;
 }
+
+export interface Chart {
+  close: number[];
+  timestamp: number[];
+}

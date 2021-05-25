@@ -14,6 +14,8 @@
     "@types/react-dom": "^17.0.0",
     "@types/react-list": "^0.8.5",
     "axios": "^0.21.1",
+    "canvasjs-react-charts": "^1.0.5",
+    "dayjs": "^1.10.4",
     "firebase": "^8.6.1",
     "i18next": "^20.2.2",
     "react": "^17.0.2",

@@ -31,7 +31,6 @@ const AuthentificationWrapper = () => {
       }
       setIsMounted(true);
     } catch (error) {
-      console.log(error);
       setIsMounted(true);
     }
   }, [dispatch, firebaseCheck]);

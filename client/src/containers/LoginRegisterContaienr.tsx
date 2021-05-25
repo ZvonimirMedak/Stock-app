@@ -60,9 +60,7 @@ const LoginRegisterContaienr = () => {
             );
             replaceLoginScreen(history);
           });
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     },
     [history, dispatch]
   );
@@ -83,9 +81,7 @@ const LoginRegisterContaienr = () => {
             );
             replaceLoginScreen(history);
           });
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     },
     [history, dispatch]
   );
