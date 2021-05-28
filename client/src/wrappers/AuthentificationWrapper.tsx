@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { State } from "../reducers";
 import { setUser } from "../actions/authAction";
 import { firebaseConfig } from "../consts/firebaseEnv";
+import Notification from "../wrappers/NotificationWrapper";
 
 const AuthentificationWrapper = () => {
   const classes = useClasses();
@@ -53,6 +54,7 @@ const AuthentificationWrapper = () => {
         <main className={classes.main}>
           <MainRouter authentificationToken={user?.uid ? user?.uid : ""} />
         </main>
+        <Notification />
       </>
     );
   }

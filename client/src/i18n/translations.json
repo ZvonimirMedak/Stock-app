@@ -19,7 +19,8 @@
       "favorites": "Favoriti",
       "most_traded": "Najviše trgovane",
       "user_stocks": "Moje dionice",
-      "my_favorite_stocks_title": "Favoriti"
+      "my_favorite_stocks_title": "Favoriti",
+      "login_error_message": "Neispravni podaci, pokušajte ponovo"
     }
   }
 }

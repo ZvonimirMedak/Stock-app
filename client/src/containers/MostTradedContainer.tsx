@@ -7,6 +7,7 @@ import { setAllStocks } from "../actions/allStocksAction";
 import { useHistory } from "react-router";
 import { goToSpecificStock } from "../helpers/navigation";
 import { AllStocks } from "../consts/interfaces";
+import Spinner from "../components/Spinner";
 
 const MostTradedContainer = () => {
   const state = useSelector((state: State) => state.allStocks);
@@ -40,13 +41,15 @@ const MostTradedContainer = () => {
     },
     [history]
   );
-
-  return (
-    <MostTradedScreen
-      allStocks={state.allStocks}
-      handleViewMorePress={handleViewMorePress}
-    />
-  );
+  if (state.allStocks.length !== 0) {
+    return (
+      <MostTradedScreen
+        allStocks={state.allStocks}
+        handleViewMorePress={handleViewMorePress}
+      />
+    );
+  }
+  return <Spinner />;
 };
 
 export default MostTradedContainer;

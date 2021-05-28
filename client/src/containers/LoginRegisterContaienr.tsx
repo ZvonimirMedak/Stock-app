@@ -8,6 +8,9 @@ import { replaceLoginScreen } from "../helpers/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { State } from "../reducers";
 import { setUser } from "../actions/authAction";
+import { setNotification } from "../actions/notificationAction";
+import { colors } from "../consts/colors";
+import { translations } from "../i18n/translation";
 
 export const loginFields = {
   email: "email",
@@ -60,7 +63,14 @@ const LoginRegisterContaienr = () => {
             );
             replaceLoginScreen(history);
           });
-      } catch (error) {}
+      } catch (error) {
+        dispatch(
+          setNotification({
+            text: translations.login_error_message,
+            color: colors.error,
+          })
+        );
+      }
     },
     [history, dispatch]
   );
@@ -81,7 +91,14 @@ const LoginRegisterContaienr = () => {
             );
             replaceLoginScreen(history);
           });
-      } catch (error) {}
+      } catch (error) {
+        dispatch(
+          setNotification({
+            text: translations.login_error_message,
+            color: colors.error,
+          })
+        );
+      }
     },
     [history, dispatch]
   );
