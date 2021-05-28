@@ -1,5 +1,5 @@
 export enum Routes {
-  Login = "/login",
+  Login = "/",
   Favorites = "/favorites",
   MostTraded = "/most-traded",
   UserTrades = "/my-trades",

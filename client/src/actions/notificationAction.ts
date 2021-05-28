@@ -2,7 +2,6 @@ import { NotificationInterface } from "../reducers/notificationReducer";
 
 export const SET_NOTIFICATION = "SET_NOTIFICATION";
 export const HIDE_NOTIFICATION = "HIDE_NOTIFICATION";
-export const SET_BILLS_NOTIFICATION = "SET_BILLS_NOTIFICATION";
 
 type SetNotification = {
   readonly type: typeof SET_NOTIFICATION;

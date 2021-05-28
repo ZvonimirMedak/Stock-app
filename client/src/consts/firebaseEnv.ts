@@ -7,3 +7,8 @@ export const firebaseConfig = {
   APP_ID: "1:931216047872:web:753c6db06b26b010e1fde5",
   MEASURMENT_ID: "G-KHY7VZHGXS",
 };
+
+export enum firebaseCollections {
+  BUYED_STOCK = "buyed_stock",
+  FAVORITES = "favorites",
+}

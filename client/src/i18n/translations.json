@@ -16,11 +16,23 @@
       "password_min_length_invalid": "Minimalno 5 znakova",
       "password_max_length_invalid": "Maksimalno 100 znakova",
       "email_pattern_invalid": "Neispravan email",
+      "login_error_message": "Neispravni podaci, pokušajte ponovo",
+
       "favorites": "Favoriti",
       "most_traded": "Najviše trgovane",
       "user_stocks": "Moje dionice",
       "my_favorite_stocks_title": "Favoriti",
-      "login_error_message": "Neispravni podaci, pokušajte ponovo"
+      "error_while_reading_data": "Pogreška prilikom čitanja podataka",
+      "current_price": "Trenutna cijena",
+      "add_to_wish_list": "Dodaj na listu želja",
+      "buy_stock": "Kupi dionicu",
+      "successfully_added_to_wishlist": "Uspješno dodano na listu želja",
+      "something_went_wrong": "Nešto je pošlo po zlu",
+      "successfully_buyed_stock": "Uspješno ste kupili dionicu",
+      "confirm_purchase": "Potvrdi kupnju",
+      "stock_purchase_title": "Kupnja dionice",
+      "stock_amount_label": "Broj dionica",
+      "stcok_price_label": "Ukupna cijena"
     }
   }
 }

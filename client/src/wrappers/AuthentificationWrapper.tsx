@@ -37,14 +37,16 @@ const AuthentificationWrapper = () => {
   }, [dispatch, firebaseCheck]);
 
   React.useEffect(() => {
-    firebase.initializeApp({
-      apiKey: firebaseConfig.API_KEY,
-      authDomain: firebaseConfig.AUTH_DOMAIN,
-      projectId: firebaseConfig.PROJECT_ID,
-      messagingSenderId: firebaseConfig.MESSAGING_SENDER_ID,
-      storageBucket: firebaseConfig.STORAGE_BUCKET,
-      appId: firebaseConfig.APP_ID,
-    });
+    if (firebase.apps.length === 0) {
+      firebase.initializeApp({
+        apiKey: firebaseConfig.API_KEY,
+        authDomain: firebaseConfig.AUTH_DOMAIN,
+        projectId: firebaseConfig.PROJECT_ID,
+        messagingSenderId: firebaseConfig.MESSAGING_SENDER_ID,
+        storageBucket: firebaseConfig.STORAGE_BUCKET,
+        appId: firebaseConfig.APP_ID,
+      });
+    }
     checkIfAllreadLogin();
   }, [checkIfAllreadLogin]);
 
