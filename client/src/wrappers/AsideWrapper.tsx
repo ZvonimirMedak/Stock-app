@@ -15,12 +15,12 @@ interface Props {
 
 const AsideWrapper = (props: Props) => {
   const classes = useClasses();
-  const [isDrawerOpen, setIsDrawerOpen] = React.useState<boolean>(false);
+  const [isDrawerOpen, setIsDrawerOpen] = React.useState<boolean>(true);
   const [activeRoute, setActiveRoute] = React.useState<number>(0);
   const location = useLocation();
 
   React.useEffect(() => {
-    setIsDrawerOpen(false);
+    setIsDrawerOpen(true);
     setActiveRoute(getActiveIndex(location));
   }, [location]);
 

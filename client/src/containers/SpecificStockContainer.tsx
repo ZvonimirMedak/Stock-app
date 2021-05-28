@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { useParams } from "react-router";
+import Spinner from "../components/Spinner";
 import { formatChart } from "../helpers/chart";
 import SpecificStockScreen from "../screens/SpecificStockScreen";
 
@@ -41,7 +42,9 @@ const SpecificStockContainer = () => {
 
   return chartData.length ? (
     <SpecificStockScreen chartData={chartData} stockName={symbol} />
-  ) : null;
+  ) : (
+    <Spinner />
+  );
 };
 
 export default SpecificStockContainer;
