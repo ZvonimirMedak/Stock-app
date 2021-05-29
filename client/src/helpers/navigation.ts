@@ -7,9 +7,10 @@ export const replaceLoginScreen = (history: History<LocationState>) => {
 
 export const goToSpecificStock = (
   history: History<LocationState>,
-  symbol: string
+  symbol: string,
+  name: string
 ) => {
-  history.push(`${RoutesWithParams.SpecificStock}/${symbol}`);
+  history.push(`${RoutesWithParams.SpecificStock}/${symbol}/${name}`);
 };
 
 export const goBack = (history: History<LocationState>) => {

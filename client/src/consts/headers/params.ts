@@ -10,7 +10,7 @@ export interface ParamsInterface {
 export enum ButtonType {
   REMOVE = "remove",
   VIEW_MORE = "view_more",
-  BUY = "buy",
+  SELL = "sell",
 }
 export interface ParamInterface {
   title: string;

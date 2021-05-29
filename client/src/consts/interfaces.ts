@@ -29,6 +29,7 @@ export interface Chart {
 }
 
 export interface PurchasedStock {
+  name: string;
   price: number;
   amount: number;
   symbol: string;
@@ -36,6 +37,7 @@ export interface PurchasedStock {
 }
 
 export interface FavoriteStock {
+  name: string;
   uuid: string;
   symbol: string;
 }

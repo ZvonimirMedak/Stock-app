@@ -25,6 +25,7 @@ function CustomCell(props: Props) {
           width: props.width,
           maxWidth: props.width,
           minWidth: props.width,
+          textAlign: props.textAlign ? props.textAlign : "left",
         }}
       >
         {props.val}

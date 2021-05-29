@@ -31,7 +31,7 @@ export const stockPurchaseFields = {
 };
 
 const SpecificStockContainer = () => {
-  const { symbol } = useParams<{ symbol: string }>();
+  const { symbol, name } = useParams<{ symbol: string; name: string }>();
   const { control, handleSubmit, setValue } = useForm();
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   const [chartData, setChartData] = React.useState<ChartData[]>([]);
@@ -81,6 +81,7 @@ const SpecificStockContainer = () => {
         .set({
           uuid: stockUuid,
           symbol,
+          name,
         });
       setIsModalVisible(false);
       dispatch(
@@ -98,7 +99,7 @@ const SpecificStockContainer = () => {
         })
       );
     }
-  }, [currentUserUid, symbol, history, dispatch]);
+  }, [currentUserUid, symbol, name, history, dispatch]);
 
   const buyStock = React.useCallback(
     async (data: Fields) => {
@@ -106,6 +107,7 @@ const SpecificStockContainer = () => {
         const stockUuid = uuid();
         const pruchasedStock = {
           symbol,
+          name,
           price: parseFloat(data.price),
           amount: parseFloat(data.amount),
           uuid: stockUuid,
@@ -131,7 +133,7 @@ const SpecificStockContainer = () => {
         );
       }
     },
-    [currentUserUid, history, symbol, dispatch]
+    [currentUserUid, name, history, symbol, dispatch]
   );
 
   const setAmount = (value: string) => {
@@ -153,7 +155,7 @@ const SpecificStockContainer = () => {
   return chartData.length ? (
     <SpecificStockScreen
       chartData={chartData}
-      stockName={symbol}
+      stockName={name}
       isModalVisible={isModalVisible}
       currentValue={currentValue}
       control={control}

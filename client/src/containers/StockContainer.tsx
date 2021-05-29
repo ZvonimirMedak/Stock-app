@@ -7,12 +7,18 @@ import Spinner from "../components/Spinner";
 import { colors } from "../consts/colors";
 import { favoritesParams } from "../consts/headers/favorites";
 import { mostTradedParams } from "../consts/headers/mostTraded";
+import { purchasedParams } from "../consts/headers/purchasedParams";
 import { AllStocks, FavoriteStock, PurchasedStock } from "../consts/interfaces";
-import { fetchFavorites, fetchMostTraded } from "../helpers/api";
+import {
+  fetchCurrentValue,
+  fetchFavorites,
+  fetchMostTraded,
+  fetchPurchased,
+  removeFavoriteStock,
+} from "../helpers/api";
 import { goToSpecificStock } from "../helpers/navigation";
 import { translations } from "../i18n/translation";
 import StockScreen from "../screens/StockScreen";
-import firebase from "firebase";
 
 export enum PaginationStep {
   POSITIVE = 1,
@@ -30,10 +36,14 @@ interface Props {
 }
 
 const StockContainer = (props: Props) => {
-  const [stocks, setStcoks] = React.useState<
+  const [stocks, setStocks] = React.useState<
     AllStocks[] | PurchasedStock[] | FavoriteStock[]
   >([]);
   const [spinner, setSpinner] = React.useState<boolean>(true);
+  const [sellModalValue, setSellModalValue] =
+    React.useState<
+      { stock: PurchasedStock; currentValue: number } | undefined
+    >();
   const stocksRef = React.useRef<
     AllStocks[] | PurchasedStock[] | FavoriteStock[]
   >([]);
@@ -42,23 +52,14 @@ const StockContainer = (props: Props) => {
   const page = React.useRef<number>(1);
   const history = useHistory();
 
-  React.useEffect(() => {
-    firebase
-      .firestore()
-      .collection(`favorites-${firebase.auth().currentUser?.uid}`)
-      .get()
-      .then((doc) => {
-        const favorites = doc.docs.map((el) => el.data());
-      });
-  }, []);
-
   const fetchData = React.useCallback(async () => {
     try {
       if (props.screenType === ScreenType.MOST_TRADED) {
-        await fetchMostTraded(stocksRef, setStcoks);
+        await fetchMostTraded(stocksRef, setStocks);
       } else if (props.screenType === ScreenType.FAVORITES) {
-        await fetchFavorites(stocksRef, setStcoks);
+        await fetchFavorites(stocksRef, setStocks);
       } else {
+        await fetchPurchased(stocksRef, setStocks);
       }
       setSpinner(false);
     } catch (error) {
@@ -78,7 +79,7 @@ const StockContainer = (props: Props) => {
 
   const handleViewMorePress = React.useCallback(
     (item: AllStocks) => {
-      goToSpecificStock(history, item.symbol);
+      goToSpecificStock(history, item.symbol, item.name);
     },
     [history]
   );
@@ -90,7 +91,7 @@ const StockContainer = (props: Props) => {
       const end = (nextStep + 1) * 100;
       const stockPreview = stocksRef.current.slice(start, end);
       page.current = page.current + step;
-      setStcoks(stockPreview);
+      setStocks(stockPreview);
     }
   }, []);
 
@@ -100,7 +101,7 @@ const StockContainer = (props: Props) => {
     } else if (props.screenType === ScreenType.MOST_TRADED) {
       return mostTradedParams;
     }
-    return mostTradedParams;
+    return purchasedParams;
   }, [props.screenType]);
 
   const screenTitle = React.useMemo(() => {
@@ -112,8 +113,24 @@ const StockContainer = (props: Props) => {
     return t(translations.user_stocks);
   }, [props.screenType, t]);
 
-  const removeStock = React.useCallback((uuid: string) => {
-    console.log(uuid);
+  const removeStock = React.useCallback(
+    (uuid: string) => {
+      removeFavoriteStock(uuid, dispatch);
+      //@ts-ignore
+      setStocks((curr) => curr.filter((el) => el.uuid !== uuid));
+    },
+    [dispatch]
+  );
+
+  const confirmSell = React.useCallback(() => {}, []);
+
+  const openSellModal = React.useCallback(async (stock: PurchasedStock) => {
+    const currentValue = await fetchCurrentValue(stock.symbol);
+    setSellModalValue({ stock, currentValue });
+  }, []);
+
+  const closeModal = React.useCallback(() => {
+    setSellModalValue(undefined);
   }, []);
 
   return !spinner ? (
@@ -121,6 +138,10 @@ const StockContainer = (props: Props) => {
       stocks={stocks}
       tableParams={tableParams}
       title={screenTitle}
+      sellModalValue={sellModalValue}
+      confirmSell={confirmSell}
+      closeModal={closeModal}
+      openSellModal={openSellModal}
       removeStock={removeStock}
       loadData={loadData}
       handleViewMorePress={handleViewMorePress}

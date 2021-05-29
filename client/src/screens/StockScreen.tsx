@@ -8,24 +8,33 @@ import ArrowLeftIcon from "@material-ui/icons/ArrowLeft";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import { ParamsInterface } from "../consts/headers/params";
 import { PaginationStep } from "../containers/StockContainer";
+import SellModal from "../components/SellModal";
 
 interface Props {
   stocks: AllStocks[] | PurchasedStock[] | FavoriteStock[];
   tableParams: ParamsInterface;
   title: string;
+  sellModalValue?: { stock: PurchasedStock; currentValue: number };
+  confirmSell: (uuid: string) => void;
+  closeModal: () => void;
+  openSellModal: (stock: PurchasedStock) => void;
   removeStock: (uuid: string) => void;
   loadData: (step: PaginationStep) => void;
   handleViewMorePress: (item: AllStocks) => void;
 }
 
-const MostTradedScreen = (props: Props) => {
+const StockScreen = (props: Props) => {
   const {
     stocks,
     tableParams,
     title,
+    sellModalValue,
+    confirmSell,
     handleViewMorePress,
+    openSellModal,
     loadData,
     removeStock,
+    closeModal,
   } = props;
   const classes = useClasses();
 
@@ -35,26 +44,43 @@ const MostTradedScreen = (props: Props) => {
         <CustomTable
           tableParams={tableParams}
           data={stocks}
+          openSellModal={openSellModal}
           removeStock={removeStock}
           handleButtonPress={handleViewMorePress}
         />
       );
     }
     return null;
-  }, [stocks, tableParams, handleViewMorePress, removeStock]);
+  }, [stocks, tableParams, handleViewMorePress, removeStock, openSellModal]);
+
+  const MemoizedSellModal = React.useMemo(() => {
+    if (sellModalValue) {
+      return (
+        <SellModal
+          sellModalValue={sellModalValue}
+          closeModal={closeModal}
+          confirmSell={confirmSell}
+        />
+      );
+    }
+    return null;
+  }, [sellModalValue, closeModal, confirmSell]);
 
   return (
     <Box className={classes.mainContainer}>
       <Header title={title} />
       {MemoizedTable}
-      <Box className={classes.iconPosition}>
-        <IconButton onClick={() => loadData(PaginationStep.NEGATIVE)}>
-          <ArrowLeftIcon fontSize="large" htmlColor={colors.white} />
-        </IconButton>
-        <IconButton onClick={() => loadData(PaginationStep.POSITIVE)}>
-          <ArrowRightIcon fontSize="large" htmlColor={colors.white} />
-        </IconButton>
-      </Box>
+      {MemoizedSellModal}
+      {stocks.length > 99 ? (
+        <Box className={classes.iconPosition}>
+          <IconButton onClick={() => loadData(PaginationStep.NEGATIVE)}>
+            <ArrowLeftIcon fontSize="large" htmlColor={colors.white} />
+          </IconButton>
+          <IconButton onClick={() => loadData(PaginationStep.POSITIVE)}>
+            <ArrowRightIcon fontSize="large" htmlColor={colors.white} />
+          </IconButton>
+        </Box>
+      ) : null}
     </Box>
   );
 };
@@ -71,4 +97,4 @@ const useClasses = makeStyles({
   },
 });
 
-export default MostTradedScreen;
+export default StockScreen;

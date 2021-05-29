@@ -3,7 +3,7 @@ export enum Routes {
   Favorites = "/favorites",
   MostTraded = "/most-traded",
   UserTrades = "/my-trades",
-  SpecificStock = "/specific-stock/:symbol?",
+  SpecificStock = "/specific-stock/:symbol?/:name?",
 }
 
 export const RoutesWithParams = {

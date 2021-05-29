@@ -2,7 +2,7 @@ import { Box, makeStyles } from "@material-ui/core";
 import React from "react";
 import { colors } from "../consts/colors";
 import { ButtonType, ParamsInterface } from "../consts/headers/params";
-import { AllStocks } from "../consts/interfaces";
+import { AllStocks, PurchasedStock } from "../consts/interfaces";
 import CustomCell from "./CustomCell";
 
 interface Props {
@@ -10,13 +10,21 @@ interface Props {
   keys: Array<string>;
   data: any[];
   tableParams: ParamsInterface;
+  openSellModal?: (stock: PurchasedStock) => void;
   removeStock?: (uuid: string) => void;
   handleButtonPress: (item: AllStocks) => void;
 }
 
 const CellRow = (props: Props) => {
-  const { index, keys, tableParams, data, handleButtonPress, removeStock } =
-    props;
+  const {
+    index,
+    keys,
+    tableParams,
+    data,
+    handleButtonPress,
+    removeStock,
+    openSellModal,
+  } = props;
   const classes = useClasses();
 
   const onButtonPress = (item?: any, buttonType?: ButtonType) => {
@@ -25,6 +33,8 @@ const CellRow = (props: Props) => {
         handleButtonPress(item);
       } else if (buttonType === ButtonType.REMOVE && removeStock) {
         removeStock(data[index].uuid);
+      } else if (buttonType === ButtonType.SELL && openSellModal) {
+        openSellModal(data[index]);
       }
     }
   };

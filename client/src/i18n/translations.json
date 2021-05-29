@@ -32,7 +32,12 @@
       "confirm_purchase": "Potvrdi kupnju",
       "stock_purchase_title": "Kupnja dionice",
       "stock_amount_label": "Broj dionica",
-      "stcok_price_label": "Ukupna cijena"
+      "stcok_price_label": "Ukupna cijena",
+      "successfully_removed_from_wishlist": "Uspješno uklonjeno iz favorita",
+      "stock_sell_title": "Prodaja dionice",
+      "confirm_sell": "Potvrdite prodaju",
+      "invested_value": "Uložena vrijednost",
+      "current_value": "Trenutna vrijednost"
     }
   }
 }

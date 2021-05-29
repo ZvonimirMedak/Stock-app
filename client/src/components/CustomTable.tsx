@@ -9,12 +9,14 @@ import { colors } from "../consts/colors";
 interface Props {
   data: PurchasedStock[] | AllStocks[] | FavoriteStock[];
   tableParams: ParamsInterface;
+  openSellModal?: (stock: PurchasedStock) => void;
   removeStock?: (uuid: string) => void;
   handleButtonPress: (item: AllStocks) => void;
 }
 
 const CustomTable = (props: Props) => {
-  const { tableParams, data, handleButtonPress, removeStock } = props;
+  const { tableParams, data, handleButtonPress, removeStock, openSellModal } =
+    props;
   const keys = React.useMemo(() => Object.keys(tableParams), [tableParams]);
   const classes = useClasses();
 
@@ -27,6 +29,7 @@ const CustomTable = (props: Props) => {
               key={index}
               width={`${parseInt(tableParams[key].width) + 0.05}vw`}
               cellType={tableParams[key].titleType}
+              textAlign={tableParams[key].textAlign}
               val={tableParams[key].title}
             />
           );
@@ -53,6 +56,7 @@ const CustomTable = (props: Props) => {
               data={data}
               tableParams={tableParams}
               keys={keys}
+              openSellModal={openSellModal}
               removeStock={removeStock}
               handleButtonPress={handleButtonPress}
             />
@@ -86,7 +90,7 @@ const useClasses = makeStyles({
   },
   rowDirection: {
     display: "flex",
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: "bold",
     borderBottom: `2px solid ${colors.white}`,
     position: "sticky",

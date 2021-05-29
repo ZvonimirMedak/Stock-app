@@ -1,0 +1,85 @@
+import { Box, Button, makeStyles, Modal, Typography } from "@material-ui/core";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { colors } from "../consts/colors";
+import { PurchasedStock } from "../consts/interfaces";
+import { translations } from "../i18n/translation";
+
+interface Props {
+  sellModalValue: { stock: PurchasedStock; currentValue: number };
+  confirmSell: (uuid: string) => void;
+  closeModal: () => void;
+}
+
+const SellModal = (props: Props) => {
+  const { stock, currentValue } = props.sellModalValue;
+  const { t } = useTranslation();
+  const classes = useClasses();
+  return (
+    <Modal
+      open={true}
+      onClose={props.closeModal}
+      className={classes.modalMainContainer}
+      aria-labelledby="simple-modal-title"
+      aria-describedby="simple-modal-description"
+    >
+      <Box className={classes.modalBodyContainer}>
+        <Typography component="h2" variant="h4" className={classes.titleText}>
+          {stock.name}
+        </Typography>
+        <Box className={classes.informationContainer}>
+          <Typography component="p" className={classes.priceText}>
+            {`${t(translations.invested_value)}: ${stock.price}$`}
+          </Typography>
+          <Typography component="p" className={classes.priceText}>
+            {`${t(translations.current_value)}: ${
+              currentValue * stock.amount
+            }$`}
+          </Typography>
+        </Box>
+        <Button
+          className={classes.sellButton}
+          onClick={() => props.confirmSell(stock.uuid)}
+          variant="outlined"
+        >
+          {t(translations.confirm_sell)}
+        </Button>
+      </Box>
+    </Modal>
+  );
+};
+
+const useClasses = makeStyles({
+  modalMainContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalBodyContainer: {
+    display: "flex",
+    backgroundColor: colors.white,
+    alignItems: "center",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    height: "40%",
+    width: "40%",
+    borderRadius: 8,
+  },
+  titleText: {
+    marginTop: 20,
+  },
+  informationContainer: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+  },
+  sellButton: {
+    marginBottom: 20,
+  },
+  priceText: {
+    fontWeight: "bold",
+  },
+});
+
+export default SellModal;
