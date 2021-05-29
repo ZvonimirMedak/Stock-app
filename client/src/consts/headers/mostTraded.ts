@@ -1,6 +1,6 @@
 import { CellType, ParamsInterface } from "./params";
 
-export const allStocksParams: ParamsInterface = {
+export const mostTradedParams: ParamsInterface = {
   name: {
     titleType: CellType.Text,
     title: "Naziv dionice",
