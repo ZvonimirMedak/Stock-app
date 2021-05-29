@@ -1,49 +1,48 @@
 import React from "react";
 import { Box, IconButton, makeStyles } from "@material-ui/core";
-import { useTranslation } from "react-i18next";
 import { colors } from "../consts/colors";
 import Header from "../components/Header";
-import { translations } from "../i18n/translation";
-import { AllStocks } from "../consts/interfaces";
+import { AllStocks, PurchasedStock } from "../consts/interfaces";
 import CustomTable from "../components/CustomTable";
-import { allStocksParams } from "../consts/headers/allStocks";
 import ArrowLeftIcon from "@material-ui/icons/ArrowLeft";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
-import { PaginationStep } from "../containers/MostTradedContainer";
+import { ParamsInterface } from "../consts/headers/params";
+import { PaginationStep } from "../containers/StockContainer";
 
 interface Props {
-  allStocks: AllStocks[];
+  stocks: AllStocks[] | PurchasedStock[] | string[];
+  tableParams: ParamsInterface;
+  title: string;
   loadData: (step: PaginationStep) => void;
   handleViewMorePress: (item: AllStocks) => void;
 }
 
 const MostTradedScreen = (props: Props) => {
-  const { allStocks, handleViewMorePress } = props;
-  const { t } = useTranslation();
+  const { stocks, tableParams, title, handleViewMorePress, loadData } = props;
   const classes = useClasses();
 
   const MemoizedTable = React.useMemo(() => {
-    if (allStocks.length) {
+    if (stocks.length) {
       return (
         <CustomTable
-          tableParams={allStocksParams}
-          data={allStocks}
+          tableParams={tableParams}
+          data={stocks}
           handleButtonPress={handleViewMorePress}
         />
       );
     }
     return null;
-  }, [allStocks, handleViewMorePress]);
+  }, [stocks, tableParams, handleViewMorePress]);
 
   return (
     <Box className={classes.mainContainer}>
-      <Header title={t(translations.most_traded)} />
+      <Header title={title} />
       {MemoizedTable}
       <Box className={classes.iconPosition}>
-        <IconButton onClick={() => props.loadData(PaginationStep.NEGATIVE)}>
+        <IconButton onClick={() => loadData(PaginationStep.NEGATIVE)}>
           <ArrowLeftIcon fontSize="large" htmlColor={colors.white} />
         </IconButton>
-        <IconButton onClick={() => props.loadData(PaginationStep.POSITIVE)}>
+        <IconButton onClick={() => loadData(PaginationStep.POSITIVE)}>
           <ArrowRightIcon fontSize="large" htmlColor={colors.white} />
         </IconButton>
       </Box>

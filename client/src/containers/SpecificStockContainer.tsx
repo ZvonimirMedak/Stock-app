@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { setNotification } from "../actions/notificationAction";
 import Spinner from "../components/Spinner";
 import { colors } from "../consts/colors";
@@ -11,7 +11,8 @@ import firebase from "firebase";
 import { firebaseCollections } from "../consts/firebaseEnv";
 import { priceFormater } from "../helpers/priceFormater";
 import { useForm } from "react-hook-form";
-import { fetchChartData } from "../helpers/axios";
+import { fetchChartData } from "../helpers/api";
+import { goBack } from "../helpers/navigation";
 
 export interface ChartData {
   x: number;
@@ -33,12 +34,15 @@ const SpecificStockContainer = () => {
   const { control, handleSubmit, setValue } = useForm();
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   const [chartData, setChartData] = React.useState<ChartData[]>([]);
+  const history = useHistory();
+  const dispatch = useDispatch();
+
   const currentValue = React.useMemo(
     () =>
       chartData.length ? priceFormater(chartData[chartData.length - 1].y) : "0",
     [chartData]
   );
-  const dispatch = useDispatch();
+
   const currentUserUid = React.useMemo(
     () => firebase.auth().currentUser?.uid,
     []
@@ -68,13 +72,10 @@ const SpecificStockContainer = () => {
 
   const addToWishList = React.useCallback(async () => {
     try {
-      //ne valja
-      let nextIndex: number = 0;
       await firebase
         .firestore()
         .collection(`${firebaseCollections.FAVORITES}-${currentUserUid}`)
-        .doc(nextIndex.toString())
-        .set({
+        .add({
           symbol,
         });
       setIsModalVisible(false);
@@ -84,7 +85,7 @@ const SpecificStockContainer = () => {
           color: colors.success,
         })
       );
-      nextIndex++;
+      goBack(history);
     } catch (error) {
       dispatch(
         setNotification({
@@ -93,29 +94,27 @@ const SpecificStockContainer = () => {
         })
       );
     }
-  }, [currentUserUid, symbol, dispatch]);
+  }, [currentUserUid, symbol, history, dispatch]);
 
   const buyStock = React.useCallback(
     async (data: Fields) => {
       try {
-        //ne valja
-        let nextIndex: number = 0;
+        const pruchasedStock = {
+          symbol,
+          price: parseFloat(data.price),
+          amount: parseFloat(data.amount),
+        };
         await firebase
           .firestore()
           .collection(`${firebaseCollections.BUYED_STOCK}-${currentUserUid}`)
-          .doc(nextIndex.toString())
-          .set({
-            symbol,
-            price: data.price,
-            amount: data.amount,
-          });
+          .add(pruchasedStock);
         dispatch(
           setNotification({
             text: translations.successfully_buyed_stock,
             color: colors.success,
           })
         );
-        nextIndex++;
+        goBack(history);
       } catch (error) {
         dispatch(
           setNotification({
@@ -125,7 +124,7 @@ const SpecificStockContainer = () => {
         );
       }
     },
-    [currentUserUid, symbol, dispatch]
+    [currentUserUid, history, symbol, dispatch]
   );
 
   const setAmount = (value: string) => {

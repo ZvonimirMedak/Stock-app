@@ -27,3 +27,9 @@ export interface Chart {
   close: number[];
   timestamp: number[];
 }
+
+export interface PurchasedStock {
+  price: number;
+  amount: number;
+  symbol: string;
+}

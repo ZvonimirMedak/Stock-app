@@ -3,11 +3,11 @@ import React from "react";
 import { ParamsInterface } from "../consts/headers/params";
 import ReactList from "react-list";
 import CellRow from "./CellRow";
-import { AllStocks } from "../consts/interfaces";
+import { AllStocks, PurchasedStock } from "../consts/interfaces";
 import CustomCell from "./CustomCell";
 import { colors } from "../consts/colors";
 interface Props {
-  data: any[];
+  data: PurchasedStock[] | AllStocks[] | string[];
   tableParams: ParamsInterface;
   handleButtonPress: (item: AllStocks) => void;
 }

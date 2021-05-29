@@ -3,10 +3,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import LoginRegisterContaienr from "../containers/LoginRegisterContaienr";
 import RouteGuard from "../components/RouteGuard";
 import { Routes } from "./Routes";
-import FavoritesContainer from "../containers/FavoritesContainer";
-import MostTradedContainer from "../containers/MostTradedContainer";
-import UserTradesContainer from "../containers/UserTradesContainer";
 import AsideWrapper from "../wrappers/AsideWrapper";
+import StockWrapper, { ScreenType } from "../containers/StockContainer";
 import SpecificStockContainer from "../containers/SpecificStockContainer";
 
 interface Props {
@@ -24,21 +22,21 @@ const MainRouter = (props: Props) => {
           exact={true}
           path={Routes.Favorites}
         >
-          <FavoritesContainer />
+          <StockWrapper screenType={ScreenType.FAVORITES} />
         </RouteGuard>
         <RouteGuard
           uid={props.authentificationToken}
           exact={true}
           path={Routes.MostTraded}
         >
-          <MostTradedContainer />
+          <StockWrapper screenType={ScreenType.MOST_TRADED} />
         </RouteGuard>
         <RouteGuard
           uid={props.authentificationToken}
           exact={true}
           path={Routes.UserTrades}
         >
-          <UserTradesContainer />
+          <StockWrapper screenType={ScreenType.PURCHASED} />
         </RouteGuard>
         <RouteGuard
           uid={props.authentificationToken}

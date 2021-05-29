@@ -11,3 +11,7 @@ export const goToSpecificStock = (
 ) => {
   history.push(`${RoutesWithParams.SpecificStock}/${symbol}`);
 };
+
+export const goBack = (history: History<LocationState>) => {
+  history.goBack();
+};
