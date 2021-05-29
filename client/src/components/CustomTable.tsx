@@ -9,7 +9,6 @@ import { colors } from "../consts/colors";
 interface Props {
   data: any[];
   tableParams: ParamsInterface;
-  hasPagination: boolean;
   handleButtonPress: (item: AllStocks) => void;
 }
 
@@ -78,7 +77,7 @@ const useClasses = makeStyles({
     borderCollapse: "separate",
     height: "100%",
     display: "flex",
-    width: "50%",
+    width: "100%",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",

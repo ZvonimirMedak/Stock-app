@@ -9,10 +9,16 @@ import { goToSpecificStock } from "../helpers/navigation";
 import { AllStocks } from "../consts/interfaces";
 import Spinner from "../components/Spinner";
 
+export enum PaginationStep {
+  NEGATIVE = -1,
+  POSITIVE = 1,
+}
+
 const MostTradedContainer = () => {
   const state = useSelector((state: State) => state.allStocks);
   const dispatch = useDispatch();
   const allStocksRef = React.useRef<AllStocks[]>([]);
+  const page = React.useRef<number>(1);
   const history = useHistory();
   React.useEffect(() => {
     if (!state.allStocks.length) {
@@ -43,10 +49,26 @@ const MostTradedContainer = () => {
     },
     [history]
   );
+
+  const loadData = React.useCallback(
+    (step: PaginationStep) => {
+      const nextStep = page.current + step;
+      if (nextStep >= 1) {
+        const start = nextStep * 100;
+        const end = (nextStep + 1) * 100;
+        const stockPreview = allStocksRef.current.slice(start, end);
+        page.current = page.current + step;
+        dispatch(setAllStocks(stockPreview));
+      }
+    },
+    [dispatch]
+  );
+
   if (state.allStocks.length !== 0) {
     return (
       <MostTradedScreen
         allStocks={state.allStocks}
+        loadData={loadData}
         handleViewMorePress={handleViewMorePress}
       />
     );
