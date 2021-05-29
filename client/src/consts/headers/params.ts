@@ -13,4 +13,5 @@ export interface ParamInterface {
   titleType: CellType;
   width: string;
   buttonValue?: string;
+  textAlign?: "right" | "left";
 }

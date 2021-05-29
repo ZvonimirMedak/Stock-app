@@ -12,6 +12,7 @@ import Spinner from "../components/Spinner";
 const MostTradedContainer = () => {
   const state = useSelector((state: State) => state.allStocks);
   const dispatch = useDispatch();
+  const allStocksRef = React.useRef<AllStocks[]>([]);
   const history = useHistory();
   React.useEffect(() => {
     if (!state.allStocks.length) {
@@ -27,7 +28,8 @@ const MostTradedContainer = () => {
           }
         )
         .then((response) => {
-          dispatch(setAllStocks(response.data.data.slice(0, 50)));
+          allStocksRef.current = response.data.data;
+          dispatch(setAllStocks(response.data.data.slice(0, 100)));
         })
         .catch((err) => {
           console.error(err);

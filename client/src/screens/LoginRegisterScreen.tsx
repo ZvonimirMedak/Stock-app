@@ -196,7 +196,7 @@ const useClasses = makeStyles({
   },
   titleStyle: {
     fontWeight: "bold",
-    padding: 40,
+    padding: 30,
     fontSize: "calc(24px + 2.1vw)",
   },
   formContainer: {
@@ -211,7 +211,8 @@ const useClasses = makeStyles({
     fontSize: "calc(14px + 0.3vw)",
   },
   linkContainer: {
-    marginTop: 50,
+    marginTop: 35,
+    paddingBottom: 15,
   },
   linkText: {
     fontSize: 18,

@@ -41,7 +41,7 @@ const SpecificStockScreen = (props: Props) => {
     [props.chartData, props.stockName]
   );
   return (
-    <Box>
+    <>
       <Box className={classes.currentPriceContinaer}>
         <Typography component="h1" variant="h4">
           {`${t(translations.current_price)}: ${props.currentValue}$`}
@@ -115,7 +115,7 @@ const SpecificStockScreen = (props: Props) => {
           </Button>
         </Box>
       </Modal>
-    </Box>
+    </>
   );
 };
 

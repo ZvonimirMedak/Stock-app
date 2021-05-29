@@ -26,6 +26,7 @@ const CellRow = (props: Props) => {
             cellType={tableParams[key].cellType}
             buttonValue={tableParams[key].buttonValue}
             val={data[index][key]}
+            textAlign={tableParams[key].textAlign}
             handleButtonPress={() => handleButtonPress(data[index])}
           />
         );
@@ -37,9 +38,11 @@ const CellRow = (props: Props) => {
 const useClasses = makeStyles({
   rowDirection: {
     display: "flex",
-    padding: "1%",
+    paddingBottom: "5%",
+    paddingTop: "5%",
+    alignItems: "center",
     borderBottom: `1px solid ${colors.white}`,
-    width: "50%",
+    width: "100%",
     justifyContent: "space-between",
   },
 });

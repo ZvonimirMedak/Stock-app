@@ -5,6 +5,7 @@ import { colors } from "../consts/colors";
 interface Props {
   buttonValue: string;
   width: string;
+  textAlign?: "right" | "left";
   handleButtonPress: () => void;
 }
 
@@ -16,6 +17,7 @@ const ButtonCell = (props: Props) => {
         width: props.width,
         maxWidth: props.width,
         minWidth: props.width,
+        textAlign: props.textAlign ? props.textAlign : "left",
       }}
     >
       <Button

@@ -24,6 +24,7 @@ const MostTradedScreen = (props: Props) => {
         <CustomTable
           tableParams={allStocksParams}
           data={allStocks}
+          hasPagination={true}
           handleButtonPress={handleViewMorePress}
         />
       );
@@ -34,7 +35,7 @@ const MostTradedScreen = (props: Props) => {
   return (
     <Box className={classes.mainContainer}>
       <Header title={t(translations.most_traded)} />
-      <Box>{MemoizedTable}</Box>
+      {MemoizedTable}
     </Box>
   );
 };

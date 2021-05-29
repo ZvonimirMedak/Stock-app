@@ -5,9 +5,11 @@ import ReactList from "react-list";
 import CellRow from "./CellRow";
 import { AllStocks } from "../consts/interfaces";
 import CustomCell from "./CustomCell";
+import { colors } from "../consts/colors";
 interface Props {
   data: any[];
   tableParams: ParamsInterface;
+  hasPagination: boolean;
   handleButtonPress: (item: AllStocks) => void;
 }
 
@@ -36,11 +38,11 @@ const CustomTable = (props: Props) => {
   return (
     <Box className={classes.mainContainer}>
       <Box className={classes.fixed}>
-        <Box>{header}</Box>
+        {header}
         <ReactList
           length={data.length}
           type="uniform"
-          pageSize={20}
+          pageSize={12}
           itemsRenderer={(items: any, refs: any) => (
             <div ref={refs}>{items}</div>
           )}
@@ -67,13 +69,30 @@ const useClasses = makeStyles({
     borderCollapse: "separate",
     maxHeight: "66vh",
     width: "100vw",
+    display: "flex",
+    justifyContent: "center",
+    marginTop: 100,
   },
   fixed: {
     tableLayout: "fixed",
     borderCollapse: "separate",
+    height: "100%",
+    display: "flex",
+    width: "50%",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
   },
   rowDirection: {
     display: "flex",
+    fontSize: 24,
+    fontWeight: "bold",
+    borderBottom: `2px solid ${colors.white}`,
+    position: "sticky",
+    left: 0,
+    zIndex: 20,
+    top: "0px",
+    backgroundColor: colors.bgColor,
   },
 });
 
