@@ -30,7 +30,7 @@ const AsideWrapper = (props: Props) => {
         <Route
           route={el}
           index={index}
-          key={`${el.path}-route`}
+          key={`${el.path}-route-${index}`}
           activeRoute={activeRoute}
           isActive={activeRoute === index}
         />

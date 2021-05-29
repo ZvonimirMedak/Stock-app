@@ -13,6 +13,7 @@ import { priceFormater } from "../helpers/priceFormater";
 import { useForm } from "react-hook-form";
 import { fetchChartData } from "../helpers/api";
 import { goBack } from "../helpers/navigation";
+import { uuid } from "uuidv4";
 
 export interface ChartData {
   x: number;
@@ -64,7 +65,7 @@ const SpecificStockContainer = () => {
         dispatch(
           setNotification({
             text: translations.error_while_reading_data,
-            color: colors.error,
+            color: colors.fireBrick,
           })
         );
       });
@@ -72,10 +73,13 @@ const SpecificStockContainer = () => {
 
   const addToWishList = React.useCallback(async () => {
     try {
+      const stockUuid = uuid();
       await firebase
         .firestore()
         .collection(`${firebaseCollections.FAVORITES}-${currentUserUid}`)
-        .add({
+        .doc(stockUuid)
+        .set({
+          uuid: stockUuid,
           symbol,
         });
       setIsModalVisible(false);
@@ -90,7 +94,7 @@ const SpecificStockContainer = () => {
       dispatch(
         setNotification({
           text: translations.something_went_wrong,
-          color: colors.error,
+          color: colors.fireBrick,
         })
       );
     }
@@ -99,15 +103,18 @@ const SpecificStockContainer = () => {
   const buyStock = React.useCallback(
     async (data: Fields) => {
       try {
+        const stockUuid = uuid();
         const pruchasedStock = {
           symbol,
           price: parseFloat(data.price),
           amount: parseFloat(data.amount),
+          uuid: stockUuid,
         };
         await firebase
           .firestore()
           .collection(`${firebaseCollections.BUYED_STOCK}-${currentUserUid}`)
-          .add(pruchasedStock);
+          .doc(stockUuid)
+          .set(pruchasedStock);
         dispatch(
           setNotification({
             text: translations.successfully_buyed_stock,
@@ -119,7 +126,7 @@ const SpecificStockContainer = () => {
         dispatch(
           setNotification({
             text: translations.something_went_wrong,
-            color: colors.error,
+            color: colors.fireBrick,
           })
         );
       }

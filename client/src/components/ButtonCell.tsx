@@ -6,11 +6,14 @@ interface Props {
   buttonValue: string;
   width: string;
   textAlign?: "right" | "left";
+  buttonColor?: string;
   handleButtonPress: () => void;
 }
 
 const ButtonCell = (props: Props) => {
-  const classes = useClasses();
+  const classes = useClasses({
+    backgroundColor: props.buttonColor ? props.buttonColor : "",
+  });
   return (
     <Box
       style={{
@@ -31,14 +34,24 @@ const ButtonCell = (props: Props) => {
   );
 };
 
+interface StyledProps {
+  backgroundColor: string;
+}
+
 const useClasses = makeStyles({
-  buttonRoot: {
-    backgroundColor: colors.white,
+  buttonRoot: (props: StyledProps) => ({
+    backgroundColor: props.backgroundColor
+      ? props.backgroundColor
+      : colors.white,
+    color: props.backgroundColor ? colors.white : colors.dark,
     "&:hover": {
       //you want this to be the same as the backgroundColor above
-      backgroundColor: colors.white,
+      backgroundColor: props.backgroundColor
+        ? props.backgroundColor
+        : colors.white,
+      color: props.backgroundColor ? colors.white : colors.dark,
     },
-  },
+  }),
   buttonTextStyle: {
     fontWeight: "bold",
   },

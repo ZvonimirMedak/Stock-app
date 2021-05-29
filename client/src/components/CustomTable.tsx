@@ -3,17 +3,18 @@ import React from "react";
 import { ParamsInterface } from "../consts/headers/params";
 import ReactList from "react-list";
 import CellRow from "./CellRow";
-import { AllStocks, PurchasedStock } from "../consts/interfaces";
+import { AllStocks, FavoriteStock, PurchasedStock } from "../consts/interfaces";
 import CustomCell from "./CustomCell";
 import { colors } from "../consts/colors";
 interface Props {
-  data: PurchasedStock[] | AllStocks[] | string[];
+  data: PurchasedStock[] | AllStocks[] | FavoriteStock[];
   tableParams: ParamsInterface;
+  removeStock?: (uuid: string) => void;
   handleButtonPress: (item: AllStocks) => void;
 }
 
 const CustomTable = (props: Props) => {
-  const { tableParams, data, handleButtonPress } = props;
+  const { tableParams, data, handleButtonPress, removeStock } = props;
   const keys = React.useMemo(() => Object.keys(tableParams), [tableParams]);
   const classes = useClasses();
 
@@ -52,6 +53,7 @@ const CustomTable = (props: Props) => {
               data={data}
               tableParams={tableParams}
               keys={keys}
+              removeStock={removeStock}
               handleButtonPress={handleButtonPress}
             />
           )}

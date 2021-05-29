@@ -1,7 +1,7 @@
 import { Box, makeStyles } from "@material-ui/core";
 import React from "react";
 import { colors } from "../consts/colors";
-import { ParamsInterface } from "../consts/headers/params";
+import { ButtonType, ParamsInterface } from "../consts/headers/params";
 import { AllStocks } from "../consts/interfaces";
 import CustomCell from "./CustomCell";
 
@@ -10,12 +10,25 @@ interface Props {
   keys: Array<string>;
   data: any[];
   tableParams: ParamsInterface;
+  removeStock?: (uuid: string) => void;
   handleButtonPress: (item: AllStocks) => void;
 }
 
 const CellRow = (props: Props) => {
-  const { index, keys, tableParams, data, handleButtonPress } = props;
+  const { index, keys, tableParams, data, handleButtonPress, removeStock } =
+    props;
   const classes = useClasses();
+
+  const onButtonPress = (item?: any, buttonType?: ButtonType) => {
+    if (buttonType) {
+      if (buttonType === ButtonType.VIEW_MORE && handleButtonPress) {
+        handleButtonPress(item);
+      } else if (buttonType === ButtonType.REMOVE && removeStock) {
+        removeStock(data[index].uuid);
+      }
+    }
+  };
+
   return (
     <Box key={index} className={classes.rowDirection}>
       {keys.map((key, ind) => {
@@ -27,7 +40,10 @@ const CellRow = (props: Props) => {
             buttonValue={tableParams[key].buttonValue}
             val={data[index][key]}
             textAlign={tableParams[key].textAlign}
-            handleButtonPress={() => handleButtonPress(data[index])}
+            buttonColor={tableParams[key].buttonColor}
+            handleButtonPress={() =>
+              onButtonPress(data[index], tableParams[key].buttonType)
+            }
           />
         );
       })}

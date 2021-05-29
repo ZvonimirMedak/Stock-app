@@ -67,7 +67,7 @@ const LoginRegisterContaienr = () => {
         dispatch(
           setNotification({
             text: translations.login_error_message,
-            color: colors.error,
+            color: colors.fireBrick,
           })
         );
       }
@@ -95,7 +95,7 @@ const LoginRegisterContaienr = () => {
         dispatch(
           setNotification({
             text: translations.login_error_message,
-            color: colors.error,
+            color: colors.fireBrick,
           })
         );
       }

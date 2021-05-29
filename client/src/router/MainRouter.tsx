@@ -18,6 +18,7 @@ const MainRouter = (props: Props) => {
       <Switch>
         <Route exact path={Routes.Login} component={LoginRegisterContaienr} />
         <RouteGuard
+          key={ScreenType.FAVORITES}
           uid={props.authentificationToken}
           exact={true}
           path={Routes.Favorites}
@@ -25,6 +26,7 @@ const MainRouter = (props: Props) => {
           <StockWrapper screenType={ScreenType.FAVORITES} />
         </RouteGuard>
         <RouteGuard
+          key={ScreenType.MOST_TRADED}
           uid={props.authentificationToken}
           exact={true}
           path={Routes.MostTraded}
@@ -32,6 +34,7 @@ const MainRouter = (props: Props) => {
           <StockWrapper screenType={ScreenType.MOST_TRADED} />
         </RouteGuard>
         <RouteGuard
+          key={ScreenType.PURCHASED}
           uid={props.authentificationToken}
           exact={true}
           path={Routes.UserTrades}

@@ -32,4 +32,10 @@ export interface PurchasedStock {
   price: number;
   amount: number;
   symbol: string;
+  uuid: string;
+}
+
+export interface FavoriteStock {
+  uuid: string;
+  symbol: string;
 }

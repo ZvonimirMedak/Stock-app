@@ -1,4 +1,4 @@
-import { CellType, ParamsInterface } from "./params";
+import { ButtonType, CellType, ParamsInterface } from "./params";
 
 export const mostTradedParams: ParamsInterface = {
   name: {
@@ -14,5 +14,6 @@ export const mostTradedParams: ParamsInterface = {
     width: "12vw",
     buttonValue: "Vidi više",
     textAlign: "right",
+    buttonType: ButtonType.VIEW_MORE,
   },
 };

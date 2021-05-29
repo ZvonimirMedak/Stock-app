@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 import firebase from "firebase";
-import { AllStocks, PurchasedStock } from "../consts/interfaces";
+import { AllStocks, FavoriteStock, PurchasedStock } from "../consts/interfaces";
 
 export const fetchChartData = async (symbol: string) => {
   return axios.request({
@@ -17,10 +17,10 @@ export const fetchChartData = async (symbol: string) => {
 
 export const fetchMostTraded = async (
   allStocksRef: React.MutableRefObject<
-    AllStocks[] | PurchasedStock[] | string[]
+    AllStocks[] | PurchasedStock[] | FavoriteStock[]
   >,
   setStocks: React.Dispatch<
-    React.SetStateAction<AllStocks[] | PurchasedStock[] | string[]>
+    React.SetStateAction<AllStocks[] | PurchasedStock[] | FavoriteStock[]>
   >
 ) => {
   try {
@@ -35,22 +35,25 @@ export const fetchMostTraded = async (
       }
     );
     allStocksRef.current = response.data.data;
-    setStocks(response.data.data.slice(0, 100));
+    setStocks([...response.data.data.slice(0, 100)]);
   } catch (error) {
     throw error;
   }
 };
 
 export const fetchFavorites = async (
-  stocksRef: React.MutableRefObject<AllStocks[] | PurchasedStock[] | string[]>,
+  stocksRef: React.MutableRefObject<
+    AllStocks[] | PurchasedStock[] | FavoriteStock[]
+  >,
   setStocks: React.Dispatch<
-    React.SetStateAction<AllStocks[] | PurchasedStock[] | string[]>
+    React.SetStateAction<AllStocks[] | PurchasedStock[] | FavoriteStock[]>
   >
 ) => {
   firebase
     .firestore()
     .collection(`favorites-${firebase.auth().currentUser?.uid}`)
-    .onSnapshot((doc) => {
+    .get()
+    .then((doc) => {
       const favorites = doc.docs.map((el) => el.data());
       //@ts-ignore
       stocksRef.current = favorites;

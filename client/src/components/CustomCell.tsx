@@ -11,6 +11,7 @@ interface Props {
   buttonValue?: string;
   customStyle?: string;
   textAlign?: "right" | "left";
+  buttonColor?: string;
   handleButtonPress?: () => void;
 }
 
@@ -37,6 +38,7 @@ function CustomCell(props: Props) {
           buttonValue={props.buttonValue}
           textAlign={props.textAlign}
           width={props.width}
+          buttonColor={props.buttonColor}
           handleButtonPress={props.handleButtonPress}
         />
       );
