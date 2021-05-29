@@ -1,5 +1,6 @@
-import { TableRow } from "@material-ui/core";
+import { Box, makeStyles } from "@material-ui/core";
 import React from "react";
+import { colors } from "../consts/colors";
 import { ParamsInterface } from "../consts/headers/params";
 import { AllStocks } from "../consts/interfaces";
 import CustomCell from "./CustomCell";
@@ -14,8 +15,9 @@ interface Props {
 
 const CellRow = (props: Props) => {
   const { index, keys, tableParams, data, handleButtonPress } = props;
+  const classes = useClasses();
   return (
-    <TableRow key={index}>
+    <Box key={index} className={classes.rowDirection}>
       {keys.map((key, ind) => {
         return (
           <CustomCell
@@ -28,8 +30,18 @@ const CellRow = (props: Props) => {
           />
         );
       })}
-    </TableRow>
+    </Box>
   );
 };
+
+const useClasses = makeStyles({
+  rowDirection: {
+    display: "flex",
+    padding: "1%",
+    borderBottom: `1px solid ${colors.white}`,
+    width: "50%",
+    justifyContent: "space-between",
+  },
+});
 
 export default CellRow;

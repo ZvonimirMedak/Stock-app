@@ -1,4 +1,4 @@
-import { makeStyles, TableCell } from "@material-ui/core";
+import { Box, makeStyles } from "@material-ui/core";
 import React from "react";
 import { colors } from "../consts/colors";
 import { CellType } from "../consts/headers/params";
@@ -17,7 +17,7 @@ function CustomCell(props: Props) {
   const classes = useClasses();
   if (props.cellType === CellType.Text) {
     return (
-      <TableCell
+      <Box
         className={`${classes.textStyle}`}
         style={{
           width: props.width,
@@ -26,7 +26,7 @@ function CustomCell(props: Props) {
         }}
       >
         {props.val}
-      </TableCell>
+      </Box>
     );
   }
   if (props.cellType === CellType.Button) {
@@ -40,7 +40,15 @@ function CustomCell(props: Props) {
       );
   }
 
-  return <TableCell></TableCell>;
+  return (
+    <Box
+      style={{
+        width: props.width,
+        maxWidth: props.width,
+        minWidth: props.width,
+      }}
+    ></Box>
+  );
 }
 
 const useClasses = makeStyles({

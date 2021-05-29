@@ -1,4 +1,3 @@
-import axios from "axios";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
@@ -12,6 +11,7 @@ import firebase from "firebase";
 import { firebaseCollections } from "../consts/firebaseEnv";
 import { priceFormater } from "../helpers/priceFormater";
 import { useForm } from "react-hook-form";
+import { fetchChartData } from "../helpers/axios";
 
 export interface ChartData {
   x: number;
@@ -45,17 +45,7 @@ const SpecificStockContainer = () => {
   );
 
   React.useEffect(() => {
-    axios
-      .request({
-        method: "GET",
-        url: "https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-chart",
-        params: { interval: "5m", symbol: symbol, range: "1d", region: "US" },
-        headers: {
-          "x-rapidapi-key":
-            "d61a1eb47fmsh0d8daf8b10d2ab6p183bd9jsn351c8602f81b",
-          "x-rapidapi-host": "apidojo-yahoo-finance-v1.p.rapidapi.com",
-        },
-      })
+    fetchChartData(symbol)
       .then((response) => {
         const timestamp = response.data.chart.result[0].timestamp;
         const marketClosedValues = formatChart(
@@ -76,7 +66,7 @@ const SpecificStockContainer = () => {
       });
   }, [symbol, dispatch]);
 
-  const addToWishList = async () => {
+  const addToWishList = React.useCallback(async () => {
     try {
       //ne valja
       let nextIndex: number = 0;
@@ -87,6 +77,7 @@ const SpecificStockContainer = () => {
         .set({
           symbol,
         });
+      setIsModalVisible(false);
       dispatch(
         setNotification({
           text: translations.successfully_added_to_wishlist,
@@ -102,38 +93,40 @@ const SpecificStockContainer = () => {
         })
       );
     }
-  };
+  }, [currentUserUid, symbol, dispatch]);
 
-  const buyStock = async (data: Fields) => {
-    try {
-      //ne valja
-      let nextIndex: number = 0;
-      await firebase
-        .firestore()
-        .collection(`${firebaseCollections.BUYED_STOCK}-${currentUserUid}`)
-        .doc(nextIndex.toString())
-        .set({
-          symbol,
-          price: data.price,
-          amount: data.amount,
-        });
-      dispatch(
-        setNotification({
-          text: translations.successfully_buyed_stock,
-          color: colors.success,
-        })
-      );
-      nextIndex++;
-    } catch (error) {
-      console.log(error);
-      dispatch(
-        setNotification({
-          text: translations.something_went_wrong,
-          color: colors.error,
-        })
-      );
-    }
-  };
+  const buyStock = React.useCallback(
+    async (data: Fields) => {
+      try {
+        //ne valja
+        let nextIndex: number = 0;
+        await firebase
+          .firestore()
+          .collection(`${firebaseCollections.BUYED_STOCK}-${currentUserUid}`)
+          .doc(nextIndex.toString())
+          .set({
+            symbol,
+            price: data.price,
+            amount: data.amount,
+          });
+        dispatch(
+          setNotification({
+            text: translations.successfully_buyed_stock,
+            color: colors.success,
+          })
+        );
+        nextIndex++;
+      } catch (error) {
+        dispatch(
+          setNotification({
+            text: translations.something_went_wrong,
+            color: colors.error,
+          })
+        );
+      }
+    },
+    [currentUserUid, symbol, dispatch]
+  );
 
   const setAmount = (value: string) => {
     const currentPrice = chartData[chartData.length - 1].y;

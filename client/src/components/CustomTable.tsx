@@ -1,9 +1,10 @@
-import { Box, makeStyles, TableBody } from "@material-ui/core";
+import { Box, makeStyles } from "@material-ui/core";
 import React from "react";
 import { ParamsInterface } from "../consts/headers/params";
 import ReactList from "react-list";
 import CellRow from "./CellRow";
 import { AllStocks } from "../consts/interfaces";
+import CustomCell from "./CustomCell";
 interface Props {
   data: any[];
   tableParams: ParamsInterface;
@@ -15,26 +16,46 @@ const CustomTable = (props: Props) => {
   const keys = React.useMemo(() => Object.keys(tableParams), [tableParams]);
   const classes = useClasses();
 
+  const header = React.useMemo(() => {
+    return (
+      <Box className={classes.rowDirection}>
+        {keys.map((key, index) => {
+          return (
+            <CustomCell
+              key={index}
+              width={`${parseInt(tableParams[key].width) + 0.05}vw`}
+              cellType={tableParams[key].titleType}
+              val={tableParams[key].title}
+            />
+          );
+        })}
+      </Box>
+    );
+  }, [tableParams, classes, keys]);
+
   return (
     <Box className={classes.mainContainer}>
-      <ReactList
-        length={data.length}
-        type="uniform"
-        pageSize={20}
-        itemsRenderer={(items: any, refs: any) => (
-          <TableBody innerRef={refs}>{items}</TableBody>
-        )}
-        itemRenderer={(index: number) => (
-          <CellRow
-            key={`Cell-${index}`}
-            index={index}
-            data={data}
-            tableParams={tableParams}
-            keys={keys}
-            handleButtonPress={handleButtonPress}
-          />
-        )}
-      />
+      <Box className={classes.fixed}>
+        <Box>{header}</Box>
+        <ReactList
+          length={data.length}
+          type="uniform"
+          pageSize={20}
+          itemsRenderer={(items: any, refs: any) => (
+            <div ref={refs}>{items}</div>
+          )}
+          itemRenderer={(index: number) => (
+            <CellRow
+              key={`Cell-${index}`}
+              index={index}
+              data={data}
+              tableParams={tableParams}
+              keys={keys}
+              handleButtonPress={handleButtonPress}
+            />
+          )}
+        />
+      </Box>
     </Box>
   );
 };
@@ -45,6 +66,14 @@ const useClasses = makeStyles({
     tableLayout: "fixed",
     borderCollapse: "separate",
     maxHeight: "66vh",
+    width: "100vw",
+  },
+  fixed: {
+    tableLayout: "fixed",
+    borderCollapse: "separate",
+  },
+  rowDirection: {
+    display: "flex",
   },
 });
 

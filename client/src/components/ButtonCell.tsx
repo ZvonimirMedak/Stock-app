@@ -1,4 +1,4 @@
-import { Button, makeStyles, TableCell } from "@material-ui/core";
+import { Box, Button, makeStyles } from "@material-ui/core";
 import React from "react";
 import { colors } from "../consts/colors";
 
@@ -11,7 +11,7 @@ interface Props {
 const ButtonCell = (props: Props) => {
   const classes = useClasses();
   return (
-    <TableCell
+    <Box
       style={{
         width: props.width,
         maxWidth: props.width,
@@ -25,7 +25,7 @@ const ButtonCell = (props: Props) => {
       >
         {props.buttonValue}
       </Button>
-    </TableCell>
+    </Box>
   );
 };
 

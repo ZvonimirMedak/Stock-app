@@ -55,66 +55,66 @@ const SpecificStockScreen = (props: Props) => {
         <Button onClick={props.inevertModalState} variant="outlined">
           {t(translations.buy_stock)}
         </Button>
-        <Modal
-          open={props.isModalVisible}
-          onClose={props.inevertModalState}
-          className={classes.modalMainContainer}
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-        >
-          <Box className={classes.modalBodyContainer}>
-            <Typography component="h2" variant="h4">
-              {t(translations.stock_purchase_title)}
-            </Typography>
-            <FormControl fullWidth className={classes.fieldWrapperContainer}>
-              <Controller
-                defaultValue=""
-                control={props.control}
-                name={stockPurchaseFields.amount}
-                render={({ field }) => (
-                  <TextField
-                    name={field.name}
-                    className={classes.fieldContainer}
-                    classes={{ root: classes.disabledArrows }}
-                    value={field.value}
-                    onChange={(e) => {
-                      field.onChange(e);
-                      props.setPrice(e.target.value);
-                    }}
-                    type="number"
-                    label={t(translations.stock_amount_label)}
-                  />
-                )}
-              />
-            </FormControl>
-            <FormControl fullWidth className={classes.fieldWrapperContainer}>
-              <Controller
-                defaultValue=""
-                control={props.control}
-                name={stockPurchaseFields.price}
-                render={({ field }) => (
-                  <TextField
-                    name={field.name}
-                    value={field.value}
-                    className={classes.fieldContainer}
-                    classes={{ root: classes.disabledArrows }}
-                    onChange={(e) => {
-                      field.onChange(e);
-                      props.setAmount(e.target.value);
-                    }}
-                    type="number"
-                    label={t(translations.stcok_price_label)}
-                  />
-                )}
-              />
-            </FormControl>
-
-            <Button onClick={props.buyStock} variant="outlined">
-              {t(translations.confirm_purchase)}
-            </Button>
-          </Box>
-        </Modal>
       </Box>
+      <Modal
+        open={props.isModalVisible}
+        onClose={props.inevertModalState}
+        className={classes.modalMainContainer}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        <Box className={classes.modalBodyContainer}>
+          <Typography component="h2" variant="h4">
+            {t(translations.stock_purchase_title)}
+          </Typography>
+          <FormControl fullWidth className={classes.fieldWrapperContainer}>
+            <Controller
+              defaultValue=""
+              control={props.control}
+              name={stockPurchaseFields.amount}
+              render={({ field }) => (
+                <TextField
+                  name={field.name}
+                  className={classes.fieldContainer}
+                  classes={{ root: classes.disabledArrows }}
+                  value={field.value}
+                  onChange={(e) => {
+                    field.onChange(e);
+                    props.setPrice(e.target.value);
+                  }}
+                  type="number"
+                  label={t(translations.stock_amount_label)}
+                />
+              )}
+            />
+          </FormControl>
+          <FormControl fullWidth className={classes.fieldWrapperContainer}>
+            <Controller
+              defaultValue=""
+              control={props.control}
+              name={stockPurchaseFields.price}
+              render={({ field }) => (
+                <TextField
+                  name={field.name}
+                  value={field.value}
+                  className={classes.fieldContainer}
+                  classes={{ root: classes.disabledArrows }}
+                  onChange={(e) => {
+                    field.onChange(e);
+                    props.setAmount(e.target.value);
+                  }}
+                  type="number"
+                  label={t(translations.stcok_price_label)}
+                />
+              )}
+            />
+          </FormControl>
+
+          <Button onClick={props.buyStock} variant="outlined">
+            {t(translations.confirm_purchase)}
+          </Button>
+        </Box>
+      </Modal>
     </Box>
   );
 };
@@ -129,7 +129,7 @@ const useClasses = makeStyles({
   buttonsContainer: {
     display: "flex",
     justifyContent: "space-between",
-    padding: 100,
+    padding: "10%",
   },
   modalMainContainer: {
     display: "flex",
@@ -144,6 +144,7 @@ const useClasses = makeStyles({
     flexDirection: "column",
     height: "40%",
     width: "40%",
+    borderRadius: 8,
   },
   fieldWrapperContainer: {
     padding: 20,

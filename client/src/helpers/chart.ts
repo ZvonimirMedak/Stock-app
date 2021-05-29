@@ -17,7 +17,7 @@ export const chartOptions = (dataPoints: ChartData[], stockName: string) => {
       },
     },
     axisY: {
-      title: "Closing Price (in $)",
+      title: "Price (in $)",
       valueFormatString: "€##0.00",
       crosshair: {
         enabled: true,
