@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { setNotification } from "../actions/notificationAction";
 import Spinner from "../components/Spinner";
@@ -15,10 +15,14 @@ import {
   fetchMostTraded,
   fetchPurchased,
   removeFavoriteStock,
+  removePurchasedStock,
+  sellStock,
 } from "../helpers/stockAPI";
 import { goToSpecificStock } from "../helpers/navigation";
 import { translations } from "../i18n/translation";
 import StockScreen from "../screens/StockScreen";
+import { State } from "../reducers";
+import firebase from "firebase";
 
 export enum PaginationStep {
   POSITIVE = 1,
@@ -48,6 +52,7 @@ const StockContainer = (props: Props) => {
     AllStocks[] | PurchasedStock[] | FavoriteStock[]
   >([]);
   const dispatch = useDispatch();
+  const walletStatus = useSelector((state: State) => state.wallet.wallet);
   const { t } = useTranslation();
   const page = React.useRef<number>(1);
   const history = useHistory();
@@ -122,7 +127,28 @@ const StockContainer = (props: Props) => {
     [dispatch]
   );
 
-  const confirmSell = React.useCallback(() => {}, []);
+  const confirmSell = React.useCallback(
+    async (uuid: string, price: number) => {
+      try {
+        const currentUUID = firebase.auth().currentUser?.uid;
+        if (currentUUID) {
+          await sellStock(walletStatus, price, currentUUID);
+          await removePurchasedStock(uuid, currentUUID);
+
+          //@ts-ignore
+          setStocks((curr) => curr.filter((el) => el.uuid !== uuid));
+          setSellModalValue(undefined);
+          dispatch(
+            setNotification({
+              text: translations.successfully_sold_stock,
+              color: colors.success,
+            })
+          );
+        }
+      } catch (error) {}
+    },
+    [walletStatus, dispatch]
+  );
 
   const openSellModal = React.useCallback(async (stock: PurchasedStock) => {
     const currentValue = await fetchCurrentValue(stock.symbol);

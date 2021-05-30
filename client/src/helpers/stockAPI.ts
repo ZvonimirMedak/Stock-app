@@ -94,7 +94,9 @@ export const removeFavoriteStock = async (
 ) => {
   firebase
     .firestore()
-    .collection(`favorites-${firebase.auth().currentUser?.uid}`)
+    .collection(
+      `${firebaseCollections.FAVORITES}-${firebase.auth().currentUser?.uid}`
+    )
     .doc(uuid)
     .delete()
     .then(() => {
@@ -130,4 +132,29 @@ export const fetchCurrentValue = async (symbol: string) => {
   } catch (error) {
     throw error;
   }
+};
+
+export const sellStock = async (
+  amount: number,
+  stockValue: number,
+  currentUUID: string
+) => {
+  await firebase
+    .firestore()
+    .collection(firebaseCollections.WALLET)
+    .doc(currentUUID)
+    .update({
+      wallet: amount + stockValue,
+    });
+};
+
+export const removePurchasedStock = async (
+  uuid: string,
+  currentUserUUID: string
+) => {
+  await firebase
+    .firestore()
+    .collection(`${firebaseCollections.BUYED_STOCK}-${currentUserUUID}`)
+    .doc(uuid)
+    .delete();
 };

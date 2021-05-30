@@ -8,8 +8,12 @@ import { dimensions } from "../consts/dimensions";
 import SettingsIcon from "@material-ui/icons/Settings";
 import { colors } from "../consts/colors";
 import UserModal from "../components/UserModal";
-//import firebase from "firebase";
-
+import firebase from "firebase";
+import { useDispatch } from "react-redux";
+import { setWallet } from "../actions/walletAction";
+import { firebaseCollections } from "../consts/firebaseEnv";
+import { setUser } from "../actions/authAction";
+import ExitToApp from "@material-ui/icons/ExitToApp";
 interface Props {
   authentificationToken: string;
 }
@@ -21,11 +25,31 @@ const AsideWrapper = (props: Props) => {
   const [isDrawerOpen, setIsDrawerOpen] = React.useState<boolean>(true);
   const [activeRoute, setActiveRoute] = React.useState<number>(0);
   const location = useLocation();
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
     setIsDrawerOpen(true);
     setActiveRoute(getActiveIndex(location));
   }, [location]);
+
+  React.useEffect(() => {
+    const currentUserUID = firebase.auth().currentUser?.uid;
+    let subscribe: any;
+    if (currentUserUID) {
+      subscribe = firebase
+        .firestore()
+        .collection(firebaseCollections.WALLET)
+        .doc(currentUserUID)
+        .onSnapshot((doc) => {
+          const wallet = doc.data();
+          console.log("wallet");
+          if (wallet) {
+            dispatch(setWallet(wallet.wallet));
+          }
+        });
+    }
+    return () => subscribe;
+  }, [dispatch]);
 
   const Routes = React.useMemo(
     () =>
@@ -41,19 +65,22 @@ const AsideWrapper = (props: Props) => {
     [activeRoute]
   );
 
+  const logout = React.useCallback(() => {
+    firebase.auth().signOut();
+    dispatch(setUser({ email: "", password: "", uid: "" }));
+  }, [dispatch]);
+
   const MemoizedUserModal = React.useMemo(() => {
     if (isUserModalVisible) {
-      return <UserModal />;
+      return <UserModal onClose={() => setIsUserModalVisible(false)} />;
     }
     return null;
   }, [isUserModalVisible]);
-  /*   const handleClick = React.useCallback(() => {
-    firebase.auth().signOut();
-  }, []); */
 
   if (props.authentificationToken) {
     return (
       <>
+        {MemoizedUserModal}
         <div
           onClick={() => setIsDrawerOpen((prev) => !prev)}
           className={classes.iconButton}
@@ -86,12 +113,20 @@ const AsideWrapper = (props: Props) => {
         >
           <Box className={classes.asideItemsPosition}>
             <Box className={classes.routesPosition}>{Routes}</Box>
-            <IconButton
-              classes={{ root: classes.settingsIconButton }}
-              onClick={() => setIsUserModalVisible(true)}
-            >
-              <SettingsIcon fontSize="large" className={classes.settings} />
-            </IconButton>
+            <Box>
+              <IconButton
+                classes={{ root: classes.settingsIconButton }}
+                onClick={logout}
+              >
+                <ExitToApp fontSize="large" className={classes.icon} />
+              </IconButton>
+              <IconButton
+                classes={{ root: classes.settingsIconButton }}
+                onClick={() => setIsUserModalVisible(true)}
+              >
+                <SettingsIcon fontSize="large" className={classes.icon} />
+              </IconButton>
+            </Box>
           </Box>
         </aside>
       </>
@@ -107,7 +142,7 @@ const useClasses = makeStyles({
     top: 0,
     bottom: 0,
     left: 0,
-    zIndex: 20,
+    zIndex: 100,
     borderRight: `1px inset ${colors.white}`,
     overflowY: "auto",
     transition: "all 0.7s",
@@ -123,7 +158,7 @@ const useClasses = makeStyles({
   routesPosition: {
     marginTop: 80,
   },
-  settings: {
+  icon: {
     cursor: "pointer",
     marginBottom: 40,
     color: colors.white,
@@ -131,7 +166,7 @@ const useClasses = makeStyles({
   iconButton: {
     position: "absolute",
     left: `calc((${dimensions.asideWidth}/2) - 16px)`,
-    zIndex: 100,
+    zIndex: 101,
     top: 10,
     cursor: "pointer",
   },

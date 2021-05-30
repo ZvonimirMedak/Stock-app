@@ -15,7 +15,7 @@ interface Props {
   tableParams: ParamsInterface;
   title: string;
   sellModalValue?: { stock: PurchasedStock; currentValue: number };
-  confirmSell: (uuid: string) => void;
+  confirmSell: (uuid: string, price: number) => void;
   closeModal: () => void;
   openSellModal: (stock: PurchasedStock) => void;
   removeStock: (uuid: string) => void;

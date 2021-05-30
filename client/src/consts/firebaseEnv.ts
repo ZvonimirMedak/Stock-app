@@ -11,4 +11,5 @@ export const firebaseConfig = {
 export enum firebaseCollections {
   BUYED_STOCK = "buyed_stock",
   FAVORITES = "favorites",
+  WALLET = "wallet",
 }

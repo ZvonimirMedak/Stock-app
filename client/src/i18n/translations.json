@@ -37,7 +37,13 @@
       "stock_sell_title": "Prodaja dionice",
       "confirm_sell": "Potvrdite prodaju",
       "invested_value": "Uložena vrijednost",
-      "current_value": "Trenutna vrijednost"
+      "current_value": "Trenutna vrijednost",
+      "user_information": "Korisničke informacije",
+      "monetary_status": "Novčani status",
+      "update_wallet": "Ažuriraj novčanik",
+      "you_dont_have_enough_money": "Nemate dovoljno novca",
+      "successfully_added_to_wallet": "Uspješno ažuriran novčanik",
+      "successfully_sold_stock": "Uspješno ste prodali dionicu"
     }
   }
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router";
 import { setNotification } from "../actions/notificationAction";
 import Spinner from "../components/Spinner";
@@ -16,7 +16,9 @@ import {
   addToFavorites,
   addToPurchased,
   fetchChartData,
+  reduceAccountMoney,
 } from "../helpers/specificStockAPI";
+import { State } from "../reducers";
 
 export interface ChartData {
   x: number;
@@ -35,6 +37,7 @@ export const stockPurchaseFields = {
 
 const SpecificStockContainer = () => {
   const { symbol, name } = useParams<{ symbol: string; name: string }>();
+  const walletStatus = useSelector((state: State) => state.wallet.wallet);
   const { control, handleSubmit, setValue } = useForm();
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   const [chartData, setChartData] = React.useState<ChartData[]>([]);
@@ -104,26 +107,33 @@ const SpecificStockContainer = () => {
   const buyStock = React.useCallback(
     async (data: Fields) => {
       try {
-        const stockUUID = uuid();
-        const purchasedStock = {
-          symbol,
-          name,
-          price: parseFloat(data.price),
-          amount: parseFloat(data.amount),
-          uuid: stockUUID,
-        };
-        await addToPurchased(
-          currentUserUid ? currentUserUid : "",
-          stockUUID,
-          purchasedStock
-        );
-        dispatch(
-          setNotification({
-            text: translations.successfully_buyed_stock,
-            color: colors.success,
-          })
-        );
-        goBack(history);
+        if (walletStatus >= parseFloat(data.price) && currentUserUid) {
+          const stockUUID = uuid();
+          const purchasedStock = {
+            symbol,
+            name,
+            price: parseFloat(data.price),
+            amount: parseFloat(data.amount),
+            uuid: stockUUID,
+          };
+          await addToPurchased(currentUserUid, stockUUID, purchasedStock);
+          const newWalletStatus = walletStatus - purchasedStock.price;
+          await reduceAccountMoney(newWalletStatus, currentUserUid);
+          dispatch(
+            setNotification({
+              text: translations.successfully_buyed_stock,
+              color: colors.success,
+            })
+          );
+          goBack(history);
+        } else {
+          dispatch(
+            setNotification({
+              text: translations.you_dont_have_enough_money,
+              color: colors.fireBrick,
+            })
+          );
+        }
       } catch (error) {
         dispatch(
           setNotification({
@@ -133,7 +143,7 @@ const SpecificStockContainer = () => {
         );
       }
     },
-    [currentUserUid, name, history, symbol, dispatch]
+    [currentUserUid, name, history, symbol, walletStatus, dispatch]
   );
 
   const setAmount = (value: string) => {

@@ -43,3 +43,13 @@ export const addToPurchased = (
     .doc(uuid)
     .set(purchasedStock);
 };
+
+export const reduceAccountMoney = (amount: number, currentUserUID: string) => {
+  return firebase
+    .firestore()
+    .collection(firebaseCollections.WALLET)
+    .doc(currentUserUID)
+    .update({
+      wallet: amount,
+    });
+};

@@ -75,7 +75,7 @@ const useStyles = makeStyles(() => ({
     opacity: p.shown ? 1 : 0,
     transition: "opacity 1.5s",
     pointerEvents: p.visible ? "auto" : "none",
-    zIndex: 30,
+    zIndex: 400,
   }),
   text: {
     color: colors.white,

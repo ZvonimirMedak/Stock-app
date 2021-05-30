@@ -7,7 +7,7 @@ import { translations } from "../i18n/translation";
 
 interface Props {
   sellModalValue: { stock: PurchasedStock; currentValue: number };
-  confirmSell: (uuid: string) => void;
+  confirmSell: (uuid: string, price: number) => void;
   closeModal: () => void;
 }
 
@@ -33,13 +33,15 @@ const SellModal = (props: Props) => {
           </Typography>
           <Typography component="p" className={classes.priceText}>
             {`${t(translations.current_value)}: ${
-              currentValue * stock.amount
+              (Math.round(currentValue * stock.amount) * 100) / 100
             }$`}
           </Typography>
         </Box>
         <Button
           className={classes.sellButton}
-          onClick={() => props.confirmSell(stock.uuid)}
+          onClick={() =>
+            props.confirmSell(stock.uuid, currentValue * stock.amount)
+          }
           variant="outlined"
         >
           {t(translations.confirm_sell)}

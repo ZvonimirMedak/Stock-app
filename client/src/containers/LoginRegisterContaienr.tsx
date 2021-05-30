@@ -30,6 +30,7 @@ const LoginRegisterContaienr = () => {
     formState: { errors },
     watch,
     clearErrors,
+    reset,
   } = useForm();
   const [step, setStep] = React.useState(Steps.LOGIN);
   const passwordRef = React.useRef({});
@@ -105,19 +106,17 @@ const LoginRegisterContaienr = () => {
 
   const changeStep = React.useCallback(() => {
     clearErrors();
+    reset({ email: "", password: "", repeatPassword: "" });
     setStep((prev) => (prev === Steps.LOGIN ? Steps.REGISTER : Steps.LOGIN));
   }, [clearErrors]);
 
-  const submitForm = React.useCallback(
-    async (data: LoginInterface) => {
-      if (step === Steps.LOGIN) {
-        await login(data);
-      } else {
-        await register(data);
-      }
-    },
-    [step, register, login]
-  );
+  const submitForm = async (data: LoginInterface) => {
+    if (step === Steps.LOGIN) {
+      await login(data);
+    } else {
+      await register(data);
+    }
+  };
 
   if (isMounted) {
     return (
