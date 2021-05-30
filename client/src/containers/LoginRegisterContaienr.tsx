@@ -108,7 +108,7 @@ const LoginRegisterContaienr = () => {
     clearErrors();
     reset({ email: "", password: "", repeatPassword: "" });
     setStep((prev) => (prev === Steps.LOGIN ? Steps.REGISTER : Steps.LOGIN));
-  }, [clearErrors]);
+  }, [clearErrors, reset]);
 
   const submitForm = async (data: LoginInterface) => {
     if (step === Steps.LOGIN) {

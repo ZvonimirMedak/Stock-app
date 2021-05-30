@@ -13,11 +13,11 @@ import { useTranslation } from "react-i18next";
 import { colors } from "../consts/colors";
 import { translations } from "../i18n/translation";
 import firebase from "firebase";
-import { useDispatch, useSelector } from "react-redux";
-import { State } from "../reducers";
+import { useDispatch } from "react-redux";
 import { firebaseCollections } from "../consts/firebaseEnv";
 import { setNotification } from "../actions/notificationAction";
 interface Props {
+  wallet: number;
   onClose: () => void;
 }
 
@@ -35,11 +35,10 @@ const UserModal = (props: Props) => {
     formState: { errors },
     handleSubmit,
   } = useForm();
-  const wallet = useSelector((state: State) => state.wallet.wallet);
   const dispatch = useDispatch();
   const classes = useClasses();
   const { t } = useTranslation();
-
+  console.log("ovo tu ", props.wallet);
   const updateWallet = async (data: UserFields) => {
     try {
       const currentUserUID = firebase.auth().currentUser?.uid;
@@ -78,7 +77,7 @@ const UserModal = (props: Props) => {
         <Controller
           name={userFields.monetaryStatus}
           control={control}
-          defaultValue={Math.round(wallet * 100) / 100}
+          defaultValue={Math.round(props.wallet * 100) / 100}
           render={({ field }) => (
             <TextField
               name={field.name}

@@ -9,11 +9,12 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import { colors } from "../consts/colors";
 import UserModal from "../components/UserModal";
 import firebase from "firebase";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setWallet } from "../actions/walletAction";
 import { firebaseCollections } from "../consts/firebaseEnv";
 import { setUser } from "../actions/authAction";
 import ExitToApp from "@material-ui/icons/ExitToApp";
+import { State } from "../reducers";
 interface Props {
   authentificationToken: string;
 }
@@ -25,6 +26,10 @@ const AsideWrapper = (props: Props) => {
   const [isDrawerOpen, setIsDrawerOpen] = React.useState<boolean>(true);
   const [activeRoute, setActiveRoute] = React.useState<number>(0);
   const location = useLocation();
+  const state = useSelector((state: State) => ({
+    wallet: state.wallet.wallet,
+    user: state.auth.user,
+  }));
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -42,14 +47,17 @@ const AsideWrapper = (props: Props) => {
         .doc(currentUserUID)
         .onSnapshot((doc) => {
           const wallet = doc.data();
-          console.log("wallet");
           if (wallet) {
             dispatch(setWallet(wallet.wallet));
+          } else {
+            dispatch(setWallet(0));
           }
         });
     }
-    return () => subscribe;
-  }, [dispatch]);
+    if (!state.user?.email) {
+      return () => subscribe;
+    }
+  }, [dispatch, state.user]);
 
   const Routes = React.useMemo(
     () =>
@@ -72,10 +80,15 @@ const AsideWrapper = (props: Props) => {
 
   const MemoizedUserModal = React.useMemo(() => {
     if (isUserModalVisible) {
-      return <UserModal onClose={() => setIsUserModalVisible(false)} />;
+      return (
+        <UserModal
+          onClose={() => setIsUserModalVisible(false)}
+          wallet={state.wallet}
+        />
+      );
     }
     return null;
-  }, [isUserModalVisible]);
+  }, [isUserModalVisible, state.wallet]);
 
   if (props.authentificationToken) {
     return (
