@@ -15,7 +15,7 @@ import {
   fetchMostTraded,
   fetchPurchased,
   removeFavoriteStock,
-} from "../helpers/api";
+} from "../helpers/stockAPI";
 import { goToSpecificStock } from "../helpers/navigation";
 import { translations } from "../i18n/translation";
 import StockScreen from "../screens/StockScreen";

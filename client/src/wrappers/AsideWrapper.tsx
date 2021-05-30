@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, makeStyles } from "@material-ui/core";
+import { Box, IconButton, makeStyles } from "@material-ui/core";
 import { OneRoute, routesNames } from "../consts/routeNames";
 import { useLocation } from "react-router";
 import { getActiveIndex } from "../helpers/routing";
@@ -7,6 +7,7 @@ import Route from "../components/Route";
 import { dimensions } from "../consts/dimensions";
 import SettingsIcon from "@material-ui/icons/Settings";
 import { colors } from "../consts/colors";
+import UserModal from "../components/UserModal";
 //import firebase from "firebase";
 
 interface Props {
@@ -15,6 +16,8 @@ interface Props {
 
 const AsideWrapper = (props: Props) => {
   const classes = useClasses();
+  const [isUserModalVisible, setIsUserModalVisible] =
+    React.useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = React.useState<boolean>(true);
   const [activeRoute, setActiveRoute] = React.useState<number>(0);
   const location = useLocation();
@@ -38,6 +41,12 @@ const AsideWrapper = (props: Props) => {
     [activeRoute]
   );
 
+  const MemoizedUserModal = React.useMemo(() => {
+    if (isUserModalVisible) {
+      return <UserModal />;
+    }
+    return null;
+  }, [isUserModalVisible]);
   /*   const handleClick = React.useCallback(() => {
     firebase.auth().signOut();
   }, []); */
@@ -77,7 +86,12 @@ const AsideWrapper = (props: Props) => {
         >
           <Box className={classes.asideItemsPosition}>
             <Box className={classes.routesPosition}>{Routes}</Box>
-            <SettingsIcon fontSize="large" className={classes.settings} />
+            <IconButton
+              classes={{ root: classes.settingsIconButton }}
+              onClick={() => setIsUserModalVisible(true)}
+            >
+              <SettingsIcon fontSize="large" className={classes.settings} />
+            </IconButton>
           </Box>
         </aside>
       </>
@@ -127,6 +141,12 @@ const useClasses = makeStyles({
     margin: 5,
     transition: "all 0.7s",
     transformOrigin: "left",
+  },
+  settingsIconButton: {
+    backgroundColor: colors.transparent,
+    "&:hover": {
+      backgroundColor: colors.transparent,
+    },
   },
 });
 

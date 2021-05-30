@@ -8,12 +8,15 @@ import { formatChart } from "../helpers/chart";
 import { translations } from "../i18n/translation";
 import SpecificStockScreen from "../screens/SpecificStockScreen";
 import firebase from "firebase";
-import { firebaseCollections } from "../consts/firebaseEnv";
 import { priceFormater } from "../helpers/priceFormater";
 import { useForm } from "react-hook-form";
-import { fetchChartData } from "../helpers/api";
 import { goBack } from "../helpers/navigation";
 import { uuid } from "uuidv4";
+import {
+  addToFavorites,
+  addToPurchased,
+  fetchChartData,
+} from "../helpers/specificStockAPI";
 
 export interface ChartData {
   x: number;
@@ -73,16 +76,13 @@ const SpecificStockContainer = () => {
 
   const addToWishList = React.useCallback(async () => {
     try {
-      const stockUuid = uuid();
-      await firebase
-        .firestore()
-        .collection(`${firebaseCollections.FAVORITES}-${currentUserUid}`)
-        .doc(stockUuid)
-        .set({
-          uuid: stockUuid,
-          symbol,
-          name,
-        });
+      const stockUUID = uuid();
+      await addToFavorites(
+        symbol,
+        name,
+        stockUUID,
+        currentUserUid ? currentUserUid : ""
+      );
       setIsModalVisible(false);
       dispatch(
         setNotification({
@@ -104,19 +104,19 @@ const SpecificStockContainer = () => {
   const buyStock = React.useCallback(
     async (data: Fields) => {
       try {
-        const stockUuid = uuid();
-        const pruchasedStock = {
+        const stockUUID = uuid();
+        const purchasedStock = {
           symbol,
           name,
           price: parseFloat(data.price),
           amount: parseFloat(data.amount),
-          uuid: stockUuid,
+          uuid: stockUUID,
         };
-        await firebase
-          .firestore()
-          .collection(`${firebaseCollections.BUYED_STOCK}-${currentUserUid}`)
-          .doc(stockUuid)
-          .set(pruchasedStock);
+        await addToPurchased(
+          currentUserUid ? currentUserUid : "",
+          stockUUID,
+          purchasedStock
+        );
         dispatch(
           setNotification({
             text: translations.successfully_buyed_stock,
