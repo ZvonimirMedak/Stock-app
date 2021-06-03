@@ -8,7 +8,6 @@ export const favoritesParams: ParamsInterface = {
     cellType: CellType.Text,
     width: "24vw",
   },
-
   delete: {
     titleType: CellType.Text,
     title: "",

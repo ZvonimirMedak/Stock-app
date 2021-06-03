@@ -52,7 +52,7 @@ const useClasses = makeStyles({
       width: "80px",
     },
     "@media (max-width: 500px)": {
-      width: "20px",
+      width: "0px",
     },
 
     "&:hover": {

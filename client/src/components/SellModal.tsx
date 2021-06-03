@@ -37,6 +37,9 @@ const SellModal = (props: Props) => {
             }$`}
           </Typography>
         </Box>
+        <Typography component="p" className={classes.priceText}>
+          {`${t(translations.total_amount_text)}: ${stock.amount}`}
+        </Typography>
         <Button
           className={classes.sellButton}
           onClick={() =>

@@ -45,7 +45,7 @@ const CustomTable = (props: Props) => {
         <ReactList
           length={data.length}
           type="uniform"
-          pageSize={12}
+          pageSize={20}
           itemsRenderer={(items: any, refs: any) => (
             <div ref={refs}>{items}</div>
           )}
