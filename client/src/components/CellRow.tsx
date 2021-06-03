@@ -70,6 +70,9 @@ const useClasses = makeStyles({
     borderBottom: `1px solid ${colors.white}`,
     width: "100%",
     justifyContent: "space-between",
+    "@media (max-width: 900px)": {
+      width: "80vw",
+    },
   },
 });
 

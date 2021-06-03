@@ -11,7 +11,7 @@ export const mostTradedParams: ParamsInterface = {
     titleType: CellType.Text,
     title: "",
     cellType: CellType.Button,
-    width: "12vw",
+    width: "24vw",
     buttonValue: "Vidi više",
     textAlign: "right",
     buttonType: ButtonType.VIEW_MORE,

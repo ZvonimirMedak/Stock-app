@@ -22,10 +22,14 @@ const useClasses = makeStyles({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: 20,
   },
   titleText: {
     color: colors.white,
+    "@media (max-width: 700px)": {
+      fontSize: "26px",
+      paddingTop: "10px",
+      marginLeft: "30px",
+    },
   },
 });
 

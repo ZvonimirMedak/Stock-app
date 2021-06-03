@@ -5,7 +5,7 @@ import { ChartData } from "../containers/SpecificStockContainer";
 export const chartOptions = (dataPoints: ChartData[], stockName: string) => {
   return {
     animationEnabled: true,
-    theme: "light2",
+    theme: "dark2",
     title: {
       text: `Stock Price of ${stockName}`,
     },

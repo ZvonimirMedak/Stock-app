@@ -38,7 +38,6 @@ const UserModal = (props: Props) => {
   const dispatch = useDispatch();
   const classes = useClasses();
   const { t } = useTranslation();
-  console.log("ovo tu ", props.wallet);
   const updateWallet = async (data: UserFields) => {
     try {
       const currentUserUID = firebase.auth().currentUser?.uid;
@@ -71,7 +70,7 @@ const UserModal = (props: Props) => {
       aria-describedby="simple-modal-description"
     >
       <Box className={classes.modalBodyContainer}>
-        <Typography component="h2" variant="h4">
+        <Typography component="h2" variant="h4" className={classes.title}>
           {t(translations.user_information)}
         </Typography>
         <Controller
@@ -123,8 +122,14 @@ const useClasses = makeStyles({
     minHeight: 300,
     minWidth: 400,
     borderRadius: 8,
+    "@media (max-width: 580px)": {
+      minHeight: 300,
+      minWidth: 200,
+    },
   },
-
+  title: {
+    textAlign: "center",
+  },
   disabledArrows: {
     "& ::-webkit-inner-spin-button": {
       "-webkit-appearance": "none",

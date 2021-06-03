@@ -51,7 +51,7 @@ const CustomTable = (props: Props) => {
           )}
           itemRenderer={(index: number) => (
             <CellRow
-              key={`Cell-${index}`}
+              key={`Cell-${index}-${data[index].symbol}`}
               index={index}
               data={data}
               tableParams={tableParams}
@@ -98,6 +98,9 @@ const useClasses = makeStyles({
     zIndex: 20,
     top: "0px",
     backgroundColor: colors.bgColor,
+    "@media (max-width: 900px)": {
+      width: "80vw",
+    },
   },
 });
 

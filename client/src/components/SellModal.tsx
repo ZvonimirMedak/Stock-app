@@ -63,18 +63,29 @@ const useClasses = makeStyles({
     alignItems: "center",
     flexDirection: "column",
     justifyContent: "space-between",
-    height: "40%",
-    width: "40%",
+    minHeight: 300,
+    minWidth: 450,
+    "@media (max-width: 580px)": {
+      minHeight: 300,
+      minWidth: 200,
+    },
+
     borderRadius: 8,
   },
   titleText: {
     marginTop: 20,
+    textAlign: "center",
   },
   informationContainer: {
     width: "100%",
     display: "flex",
     justifyContent: "space-evenly",
     alignItems: "center",
+    "@media (max-width: 580px)": {
+      justifyContent: "space-evenly",
+      alignItems: "center",
+      flexDirection: "column",
+    },
   },
   sellButton: {
     marginBottom: 20,

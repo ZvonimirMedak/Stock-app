@@ -182,6 +182,12 @@ const useClasses = makeStyles({
     zIndex: 101,
     top: 10,
     cursor: "pointer",
+    "@media (max-width: 550px)": {
+      left: "55px",
+    },
+    "@media (max-width: 350px)": {
+      left: "20px",
+    },
   },
   hamburger: {
     border: `2px solid ${colors.white}`,

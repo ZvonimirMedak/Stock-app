@@ -41,18 +41,26 @@ const SpecificStockScreen = (props: Props) => {
     [props.chartData, props.stockName]
   );
   return (
-    <>
+    <Box className={classes.container}>
       <Box className={classes.currentPriceContinaer}>
-        <Typography component="h1" variant="h4">
-          {`${t(translations.current_price)}: ${props.currentValue}$`}
+        <Typography className={classes.title} component="h1" variant="h4">
+          {`${t(translations.current_price)} ${props.currentValue}$`}
         </Typography>
       </Box>
       <CanvasJSChart options={options} />
       <Box className={classes.buttonsContainer}>
-        <Button onClick={props.addToWishList} variant="outlined">
+        <Button
+          className={classes.button}
+          onClick={props.addToWishList}
+          variant="outlined"
+        >
           {t(translations.add_to_wish_list)}
         </Button>
-        <Button onClick={props.inevertModalState} variant="outlined">
+        <Button
+          className={classes.button}
+          onClick={props.inevertModalState}
+          variant="outlined"
+        >
           {t(translations.buy_stock)}
         </Button>
       </Box>
@@ -115,16 +123,31 @@ const SpecificStockScreen = (props: Props) => {
           </Button>
         </Box>
       </Modal>
-    </>
+    </Box>
   );
 };
 
 const useClasses = makeStyles({
+  container: {
+    height: "100vh",
+    overflow: "hidden",
+    backgroundColor: colors.bgColor,
+    "@media (max-height: 600px)": {
+      overflow: "auto",
+    },
+  },
+  title: {
+    color: colors.white,
+    textAlign: "center",
+  },
   currentPriceContinaer: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     padding: 40,
+    "@media (max-width: 600px)": {
+      padding: "40px",
+    },
   },
   buttonsContainer: {
     display: "flex",
@@ -142,8 +165,12 @@ const useClasses = makeStyles({
     backgroundColor: colors.white,
     alignItems: "center",
     flexDirection: "column",
-    height: "40%",
-    width: "40%",
+    minHeight: 300,
+    minWidth: 450,
+    "@media (max-width: 500px)": {
+      minHeight: 300,
+      minWidth: 350,
+    },
     borderRadius: 8,
   },
   fieldWrapperContainer: {
@@ -154,6 +181,13 @@ const useClasses = makeStyles({
   },
   fieldContainer: {
     width: "50%",
+  },
+  button: {
+    color: colors.white,
+    borderColor: colors.white,
+    "@media (max-width: 600px)": {
+      fontSize: "12px",
+    },
   },
   disabledArrows: {
     "& ::-webkit-inner-spin-button": {

@@ -76,6 +76,12 @@ const useStyles = makeStyles(() => ({
     transition: "opacity 1.5s",
     pointerEvents: p.visible ? "auto" : "none",
     zIndex: 400,
+    "@media (max-width: 600px)": {
+      padding: "5px 10px 5px 10px",
+      maxWidth: "80%",
+      minWidth: "80%",
+      left: "8%",
+    },
   }),
   text: {
     color: colors.white,

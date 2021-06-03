@@ -40,10 +40,21 @@ interface StyledProps {
 
 const useClasses = makeStyles({
   buttonRoot: (props: StyledProps) => ({
+    width: "150px",
     backgroundColor: props.backgroundColor
       ? props.backgroundColor
       : colors.white,
     color: props.backgroundColor ? colors.white : colors.dark,
+    "@media (max-width: 1100px)": {
+      width: "80px",
+    },
+    "@media (max-width: 900px)": {
+      width: "80px",
+    },
+    "@media (max-width: 500px)": {
+      width: "20px",
+    },
+
     "&:hover": {
       //you want this to be the same as the backgroundColor above
       backgroundColor: props.backgroundColor
@@ -54,6 +65,12 @@ const useClasses = makeStyles({
   }),
   buttonTextStyle: {
     fontWeight: "bold",
+    "@media (max-width: 600px)": {
+      fontSize: "10px",
+    },
+    "@media (max-width: 500px)": {
+      fontSize: "8px",
+    },
   },
 });
 

@@ -60,6 +60,12 @@ const useClasses = makeStyles({
   textStyle: {
     fontWeight: 500,
     color: colors.white,
+    "@media (max-width: 600px)": {
+      fontSize: "12px",
+    },
+    "@media (max-width: 500px)": {
+      fontSize: "9px",
+    },
   },
 });
 
